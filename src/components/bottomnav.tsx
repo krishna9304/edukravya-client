@@ -22,9 +22,9 @@ function Homenav({ className = "" }: { className?: string }) {
               : tab == "learningtree"
               ? "left-[13rem]"
               : "left-[18.5rem]"
-          } -top-1/2 w-12 h-12 border-[6px] border-white bg-cyan-400 rounded-full duration-300` +
-          " before:bg-transparent before:absolute before:top-1/2 before:w-4 before:h-3 before:rounded-tr-full before:right-[38.75px] before:shadow-inner-tr-10 " +
-          " after:bg-transparent after:absolute after:top-1/2 after:w-4 after:h-3 after:rounded-tl-full after:left-[38.75px] after:shadow-inner-tl-10"
+          } -top-1/2 w-12 h-12 border-[6px] border-white bg-blue-700 rounded-full duration-300` +
+          " before:bg-transparent before:absolute before:top-1/2 before:w-4 before:h-3 before:rounded-tr-full before:right-[39px] before:shadow-inner-tr-10 " +
+          " after:bg-transparent after:absolute after:top-1/2 after:w-4 after:h-3 after:rounded-tl-full after:left-[39px] after:shadow-inner-tl-10"
         }
       />
 
