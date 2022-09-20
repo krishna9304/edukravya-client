@@ -10,7 +10,7 @@ import { Menu as MenuIcon, SearchOutlined } from "@mui/icons-material";
 
 function Navbar() {
   return (
-    <nav className="w-full bg-cyan-400 p-2 items-center justify-between flex">
+    <nav className="w-full bg-blue-700 p-2 items-center justify-between flex">
       <div className="flex gap-4 items-center justify-center">
         <Hamburger />
         <span className="font-bold md:text-5xl text-3xl">EDUKRAVYA</span>
@@ -25,9 +25,9 @@ function Navbar() {
           placeholder={"Search"}
           size="small"
           sx={{
-            fontSize: 12,
+            fontSize: 14,
           }}
-          className="w-full md:w-1/3 max-w-xs bg-white"
+          className="w-60 hidden sm:block md:w-96n-w-s/3 bg-white"
         />
       </div>
       <div className={`hidden md:flex w-[16.875rem] md:w-[27rem]`}></div>
