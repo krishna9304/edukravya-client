@@ -13,7 +13,9 @@ function Navbar() {
     <nav className="w-full bg-blue-700 p-2 items-center justify-between flex">
       <div className="flex gap-4 items-center justify-center">
         <Hamburger />
-        <span className="font-bold md:text-5xl text-3xl">EDUKRAVYA</span>
+        <span className="font-bold text-white md:text-5xl text-3xl">
+          EDUKRAVYA
+        </span>
       </div>
       <div className="flex md:w-full md:justify-center items-center">
         <OutlinedInput
@@ -39,7 +41,9 @@ function Navbar() {
 function Hamburger() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open: boolean = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick: (event: React.MouseEvent<HTMLButtonElement>) => void = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): void => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -55,7 +59,7 @@ function Hamburger() {
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
       >
-        <MenuIcon />
+        <MenuIcon className="text-white" />
       </IconButton>
       <Menu
         id="basic-menu"

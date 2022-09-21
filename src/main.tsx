@@ -8,7 +8,10 @@ import { ThemeProvider } from "@mui/system";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#0971f1",
+      main: "#1d4ed8",
+    },
+    secondary: {
+      main: "rgb(34 211 238)",
     },
     info: {
       main: "rgb(192 38 211 )",
