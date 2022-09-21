@@ -47,15 +47,15 @@ export default function SignUp() {
     confirmisIsVisible: false,
   });
   return (
-    <div className="flex flex-col h-screen py-28 w-full items-center bg-indigo-400 bg-gradient-to-b from-blue-700 to-cyan-400">
-      <div className="flex items-center justify-center flex-grow w-full max-w-4xl min-w-4xl rounded-xl">
+    <div className="flex py-20 justify-center flex-col h-screen w-full items-center bg-indigo-400 bg-gradient-to-b from-blue-700 to-cyan-400">
+      <div className="flex items-center justify-center h-[100%] max-h-fit w-full max-w-4xl min-w-4xl rounded-xl">
         <div
           style={{
             backgroundImage: "url(/images/signblue.jpg)",
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
           }}
-          className="flex flex-col justify-between h-full w-1/2 pt-10 pl-10 pb-10 bg-blue-800 rounded-l-xl cursor-default"
+          className="flex flex-col justify-between h-full w-1/2 py-10 px-4 bg-blue-800 rounded-l-xl select-none"
         >
           <div className="font-black text-white md:text-4xl text-3xl">
             EDUKRAVYA
