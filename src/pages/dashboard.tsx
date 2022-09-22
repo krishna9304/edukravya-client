@@ -9,7 +9,7 @@ import Tests from "../components/tests";
 function Dashboard() {
   let { tab } = useParams();
   return (
-    <PageWithBottomNav extendedNav={true}>
+    <PageWithBottomNav extendedNav={false}>
       <div className="w-full flex grow">
         {tab == "home" ? (
           <Home />

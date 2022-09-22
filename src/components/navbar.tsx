@@ -17,6 +17,7 @@ import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 import BoxesImage from "../assets/boxes.svg";
 
 import { Link } from "react-router-dom";
+import Logo from "./logo";
 
 function Navbar({
   extended,
@@ -30,9 +31,7 @@ function Navbar({
       <nav className="fixed z-10 top-0 left-0 w-full bg-primary-700 bg-opacity-90 backdrop-blur-sm px-2 pt-4 pb-2 items-center justify-between flex">
         <div className="flex gap-4 items-center justify-center">
           <Hamburger />
-          <Link to="/" className="w-60 -translate-y-2">
-            <img src="/images/edukravya.png" alt="Edukravya logo" />
-          </Link>
+          <Logo />
         </div>
         <div className="flex md:w-full md:justify-center items-center">
           <OutlinedInput
@@ -70,7 +69,7 @@ function Navbar({
       </nav>
       {/* expanded nav */}
       <div
-        className={`flex px-20 pt-36 flex-col gap-6 md:flex-row md:justify-start justify-center bg-primary-700 items-center w-full p-8 z-0 
+        className={`flex px-20 pt-20 flex-col gap-6 md:flex-row md:justify-start justify-center bg-primary-700 items-center w-full p-8 z-0 
         ${extended ? "" : "h-0 scale-y-0 hidden"} duration-300`}
       >
         <span className="w-60 rounded-full ring-8 hover:ring-4 ring-secondary-500 duration-300">
@@ -82,7 +81,7 @@ function Navbar({
           />
         </span>
         <div className="flex w-full gap-2 justify-between md:items-center">
-          <div className="flex flex-col w-full justify-center items-start">
+          <div className="flex flex-col w-full justify-center items-center md:items-start">
             <div className="text-3xl md:text-5xl font-light text-white font-sans">
               Dummy_Student
             </div>
@@ -92,7 +91,7 @@ function Navbar({
                 <ContentCopyRounded className="text-white" />
               </IconButton>
             </div>
-            <div className="max-w-sm text-white">
+            <div className="max-w-sm text-white text-center md:text-start">
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minus
               beatae quo nobis assumenda voluptates dolore asperiores sint
               expedita facere modi.
