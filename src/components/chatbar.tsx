@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import Message, { MessageData } from "./message";
 
 function Chatbar() {
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isOpen, setIsOpen] = useState<boolean>(!true);
   const [users, setusers] = useState([
     "John",
     "Rohn",
