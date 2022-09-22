@@ -16,15 +16,15 @@ export default function SignUp() {
   });
   const [isVisible, setIsVisible] = useState<boolean>(false);
   return (
-    <div className="flex py-20 justify-center flex-col h-screen w-full items-center bg-indigo-400 bg-gradient-to-b from-blue-700 to-cyan-400">
+    <div className="flex py-20 justify-center flex-col h-screen w-full items-center bg-indigo-400 bg-gradient-to-b from-primary-700 to-secondary-400">
       <div className="flex items-center justify-center h-[100%] max-h-fit w-full max-w-4xl min-w-4xl rounded-xl">
         <div
           style={{
-            backgroundImage: "url(/images/signblue.jpg)",
+            backgroundImage: "url(/images/signprimary.jpg)",
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
           }}
-          className="flex flex-col justify-between h-full w-1/2 py-10 px-4 bg-blue-800 rounded-l-xl select-none"
+          className="flex flex-col justify-between h-full w-1/2 py-10 px-4 bg-primary-800 rounded-l-xl select-none"
         >
           <div className="font-black text-white md:text-4xl text-3xl">
             EDUKRAVYA
@@ -35,12 +35,12 @@ export default function SignUp() {
               Sign In to <br /> continue access
             </span>
           </div>
-          <div className="text-sm text-blue-300 font-semibold">
+          <div className="text-sm text-primary-300 font-semibold">
             HAVE A GREAT DAY !!
           </div>
         </div>
-        <div className="flex gap-10 flex-col pt-14 px-10 h-full w-1/2 bg-white rounded-r-xl">
-          <div className="text-4xl font-black cursor-default">Sign Up</div>
+        <div className="flex gap-10 flex-col justify-center px-10 h-full w-1/2 bg-white rounded-r-xl">
+          <div className="text-4xl font-black cursor-default">Sign In</div>
           <div className="flex flex-col justify-around h-1/3">
             <Input
               onChange={(e) => {

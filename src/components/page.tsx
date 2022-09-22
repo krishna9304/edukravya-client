@@ -1,26 +1,27 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 import Chatbar from "./chatbar";
 import Navbar from "./navbar";
 
-function Page({
-  children,
-  className = "",
-}: {
-  children: ReactNode;
+interface PageProps {
   className?: string;
-}) {
+  children: ReactNode;
+  extendedNav?: boolean;
+}
+
+function Page({ children, className = "", extendedNav = false }: PageProps) {
+  const [extended, setExtended] = useState(extendedNav);
   return (
-    <>
-      <div className={`min-h-screen` + className}>
-        <div>
-          <Navbar />
-          <main className="w-full min-h-[calc(100vh-52px)] md:min-h-[calc(100vh-4rem)]">
-            {children}
-          </main>
+    <div className="flex flex-col">
+      <Navbar extended={extended} setExtended={setExtended} />
+      <div
+        className={`flex ${!extended && " pt-20"} min-h-screen  ` + className}
+      >
+        <div className="flex flex-col grow">
+          <main className="w-full flex flex-col grow">{children}</main>
         </div>
       </div>
       <Chatbar />
-    </>
+    </div>
   );
 }
 

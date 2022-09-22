@@ -1,7 +1,7 @@
 import React from "react";
 
 function LearningTree() {
-  return <div className="bg-gray-200 w-full flex flex-grow"></div>;
+  return <div className="bg-teal-300 w-full flex grow">learningtree</div>;
 }
 
 export default LearningTree;
