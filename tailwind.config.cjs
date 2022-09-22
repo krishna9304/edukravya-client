@@ -1,14 +1,13 @@
+const colors = require("tailwindcss/colors");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
-        theme: "rgb(15 23 42)",
-      },
-      minHeight: {
-        nonav: "calc(100vh-7rem)",
-        bignonav: "calc(100vh-64px)",
+        primary: colors.indigo,
+        secondary: colors.blue,
       },
       boxShadow: {
         "inner-tr-10": "5px 0 0 0",

@@ -27,13 +27,12 @@ function Message({ message, user }: { message: MessageData; user: string }) {
           {new Date(message.time).toLocaleTimeString()}
         </div>
         <div
-          className={`px-3 pt-1 pb-1.5 duration-300 ${
+          className={`px-3 pt-1 pb-1.5 duration-300 shadow-gray-300 shadow-md ${
             fromMe
-              ? "rounded-r-md bg-gray-500 rounded-bl-md"
-              : "rounded-l-md bg-blue-500 rounded-br-md"
+              ? "rounded-r-md bg-gray-300 rounded-bl-md"
+              : "rounded-l-md bg-primary-600 text-white rounded-br-md"
           }`}
         >
-          <div className="text-sm text-white font-bold"> {message.from}</div>
           <div className="text-sm">{message.body}</div>
         </div>
       </div>
