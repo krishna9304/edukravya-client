@@ -5,6 +5,7 @@ import Home from "../components/home";
 import LearningTree from "../components/learningtree";
 import PageWithBottomNav from "../components/pagewithbottomnav";
 import Tests from "../components/tests";
+import NavigateTo from "../components/navigateto";
 
 function Dashboard() {
   let { tab } = useParams();
@@ -22,7 +23,7 @@ function Dashboard() {
         ) : tab == "books" ? (
           <Books />
         ) : (
-          "404"
+          <NavigateTo path="/pagenotfound" />
         )}
       </div>
     </PageWithBottomNav>

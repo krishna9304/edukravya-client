@@ -5,6 +5,7 @@ import {
   OutlinedInput,
   InputAdornment,
   Avatar,
+  Tooltip,
 } from "@mui/material";
 import { Dispatch, SetStateAction, useState } from "react";
 import {
@@ -14,10 +15,10 @@ import {
   SearchOutlined,
 } from "@mui/icons-material";
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
-import BoxesImage from "../assets/boxes.svg";
-
+import studylogo from "../assets/studylogo.svg";
 import { Link } from "react-router-dom";
 import Logo from "./logo";
+import { isSaturday } from "date-fns";
 
 function Navbar({
   extended,
@@ -33,7 +34,7 @@ function Navbar({
           <Hamburger />
           <Logo />
         </div>
-        <div className="flex md:w-full md:justify-center items-center">
+        <div className="hidden sm:flex md:w-full md:justify-center items-center">
           <OutlinedInput
             endAdornment={
               <InputAdornment position="end">
@@ -48,28 +49,34 @@ function Navbar({
             className="w-60 hidden sm:block md:w-96n-w-s/3 bg-white"
           />
         </div>
-        <div
-          className={`hidden flex-row-reverse sm:flex w-[16.875rem] md:w-[27rem]`}
-        >
-          {!extended && (
-            <IconButton>
-              <Avatar />
-            </IconButton>
-          )}
-        </div>
         <div className="flex justify-center items-center">
+          {!extended && (
+            <Tooltip title="PROFILE">
+              <IconButton>
+                <Avatar />
+              </IconButton>
+            </Tooltip>
+          )}
           <IconButton
             onClick={() => {
               setExtended((pe) => !pe);
             }}
           >
-            {extended ? <CloseRounded /> : <ExpandMoreRoundedIcon />}
+            {extended ? (
+              <Tooltip title="COLLAPSE NAVBAR">
+                <CloseRounded />
+              </Tooltip>
+            ) : (
+              <Tooltip title="EXPAND NAVBAR">
+                <ExpandMoreRoundedIcon />
+              </Tooltip>
+            )}
           </IconButton>
         </div>
       </nav>
       {/* expanded nav */}
       <div
-        className={`flex px-20 pt-20 flex-col gap-6 md:flex-row md:justify-start justify-center bg-primary-700 items-center w-full p-8 z-0 
+        className={`flex px-20 pt-24 flex-col gap-6 md:flex-row md:justify-start justify-center bg-primary-700 items-center w-full p-8 z-0 
         ${extended ? "" : "h-0 scale-y-0 hidden"} duration-300`}
       >
         <span className="w-60 rounded-full ring-8 hover:ring-4 ring-secondary-500 duration-300">
@@ -87,9 +94,11 @@ function Navbar({
             </div>
             <div className="text-white italic underline font-mono flex gap-1 items-center justify-center px-2">
               @student_student
-              <IconButton size="small">
-                <ContentCopyRounded className="text-white" />
-              </IconButton>
+              <Tooltip placement="right" title="COPY USERNAME">
+                <IconButton size="small">
+                  <ContentCopyRounded className="text-white" />
+                </IconButton>
+              </Tooltip>
             </div>
             <div className="max-w-sm text-white text-center md:text-start">
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minus
@@ -97,8 +106,8 @@ function Navbar({
               expedita facere modi.
             </div>
           </div>
-          <div className="hidden lg:block max-w-sm">
-            <img src={BoxesImage} alt="theme image" />
+          <div className="hidden lg:block max-w-sm transform">
+            <img src={studylogo} alt="theme image" />
           </div>
         </div>
       </div>
@@ -119,7 +128,7 @@ function Hamburger() {
   };
 
   return (
-    <>
+    <div>
       <IconButton
         onClick={handleClick}
         aria-controls={open ? "basic-menu" : undefined}
@@ -143,7 +152,7 @@ function Hamburger() {
         <MenuItem onClick={handleClose}>Download</MenuItem>
         <MenuItem onClick={handleClose}>Logout</MenuItem>
       </Menu>
-    </>
+    </div>
   );
 }
 
