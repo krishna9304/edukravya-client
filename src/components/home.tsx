@@ -6,6 +6,7 @@ import {
   ContentPasteGoRounded,
 } from "@mui/icons-material";
 import Carousel from "./carousel";
+import BatchCard from "../components/batchcard";
 import { Link } from "react-router-dom";
 import edukravyaImage from "../assets/edukravya-grid-cyan-final.png";
 function Home() {
@@ -84,6 +85,49 @@ function Home() {
           <div className="bg-blue-300 rounded-lg p-5 font-semibold">
             UPSC AND OTHER CIVIL SERVICE EXAMS
           </div>
+        </div>
+      </div>
+      <div className="px-10 w-screen py-4 flex flex-col gap-3">
+        <div className="font-bold text-xl">
+          Batches you might want to explore !!
+        </div>
+        <div className="p-4 overflow-auto rounded-lg bg-slate-300 flex gap-4">
+          <BatchCard
+            thumbnail={"../src/assets/demobatch.svg"}
+            title="Batch title"
+          />
+          <BatchCard
+            thumbnail={"../src/assets/demobatch.svg"}
+            title="Batch title"
+          />
+          <BatchCard
+            thumbnail={"../src/assets/demobatch.svg"}
+            title="Batch title"
+          />
+          <BatchCard
+            thumbnail={"../src/assets/demobatch.svg"}
+            title="Batch title"
+          />
+          <BatchCard
+            thumbnail={"../src/assets/demobatch.svg"}
+            title="Batch title"
+          />
+          <BatchCard
+            thumbnail={"../src/assets/demobatch.svg"}
+            title="Batch title"
+          />
+          <BatchCard
+            thumbnail={"../src/assets/demobatch.svg"}
+            title="Batch title"
+          />
+          <BatchCard
+            thumbnail={"../src/assets/demobatch.svg"}
+            title="Batch title"
+          />
+          <BatchCard
+            thumbnail={"../src/assets/demobatch.svg"}
+            title="Batch title"
+          />
         </div>
       </div>
     </div>
