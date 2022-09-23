@@ -85,7 +85,7 @@ function Chatbar() {
         isOpen ? "right-0" : "-right-[calc(24rem-1.5rem)]"
       } flex items-center  justify-center duration-300`}
     >
-      <Tooltip placement="left" title="chat">
+      <Tooltip placement="left" title="CHAT">
         <div
           onClick={(): void => setIsOpen((po: boolean): boolean => !po)}
           className="flex w-6 shadow-y-lg shadow-gray-500 translate-x-[1px] justify-center items-center h-20 bg-secondary-200 rounded-l-lg top-[50vh] left-0 cursor-pointer"
@@ -97,32 +97,34 @@ function Chatbar() {
         <div className="font-normal text-2xl">Chats</div>
         <div className="flex h-full gap-4 flex-col">
           <div className="flex gap-3 max-w-xs p-2 overflow-x-auto">
-            {users.map((name) => {
+            {users.map((name, idx) => {
               return (
-                <div
-                  key={name} // _id
-                  className={`p-1 flex justify-center items-center rounded-full ${
-                    currentUser == name &&
-                    " bg-gradient-to-br from-secondary-900 via-primary-700"
-                  }`}
-                >
+                <Tooltip title={name}>
                   <div
-                    className={`${
+                    key={idx} // _id
+                    className={`p-1 flex justify-center items-center rounded-full ${
                       currentUser == name &&
-                      " scroll-ml-2 snap-start duration-300 ring-black rounded-full"
+                      " bg-gradient-to-br from-secondary-900 via-primary-700"
                     }`}
-                    onClick={(): void => setCurrentUser(name)}
                   >
-                    <Avatar />
+                    <div
+                      className={`${
+                        currentUser == name &&
+                        " scroll-ml-2 snap-start duration-300 ring-black rounded-full"
+                      }`}
+                      onClick={(): void => setCurrentUser(name)}
+                    >
+                      <Avatar />
+                    </div>
                   </div>
-                </div>
+                </Tooltip>
               );
             })}
           </div>
           <div className="flex flex-col grow">
             <div className="flex items-center gap-2 font-semibold rounded-t-md py-2 px-5 border-b shadow-black bg-white">
               {currentUser}
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <div className="p-1 bg-green-500 rounded-full" />
             </div>
             <div className="bg-white  h-[60vh] grow overflow-y-auto flex flex-col-reverse p-4 gap-2 rounded-b-md">
               {[...messages].map((message) => {

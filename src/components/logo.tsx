@@ -14,17 +14,14 @@ function Logo({
   color?: string;
 }) {
   return (
-    <Link
-      to="/"
-      className={`text-${fontSize} text-${color} font-bold flex gap-[1px] ${className}`}
-    >
-      <span>EDU</span>
-      <img
-        className={`-translate-y-2 w-${imgSize}`}
-        src={edukravyaImage}
-        alt="Edukravya logo"
-      />
-      <span>RAVYA</span>
+    <Link to="/dashboard/home" className="-translate-y-1">
+      <div
+        className={`text-${fontSize} items-baseline text-${color} font-bold flex gap-[1px] ${className}`}
+      >
+        <span>EDU</span>
+        <img className={`w-6`} src={edukravyaImage} alt="Edukravya logo" />
+        <span>RAVYA</span>
+      </div>
     </Link>
   );
 }
