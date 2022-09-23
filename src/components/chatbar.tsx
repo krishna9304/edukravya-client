@@ -99,9 +99,8 @@ function Chatbar() {
           <div className="flex gap-3 max-w-xs p-2 overflow-x-auto">
             {users.map((name, idx) => {
               return (
-                <Tooltip title={name}>
+                <Tooltip key={idx} title={name}>
                   <div
-                    key={idx} // _id
                     className={`p-1 flex justify-center items-center rounded-full ${
                       currentUser == name &&
                       " bg-gradient-to-br from-secondary-900 via-primary-700"
