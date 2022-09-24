@@ -13,11 +13,11 @@ function Page({ children, className = "", extendedNav = false }: PageProps) {
   return (
     <div className="flex flex-col">
       <Navbar extended={extended} setExtended={setExtended} />
-      <div
-        className={`flex ${!extended && " pt-20"} min-h-screen  ` + className}
-      >
+      <div className={`flex ${!extended && " pt-20"} min-h-screen`}>
         <div className="flex flex-col grow">
-          <main className="w-full flex flex-col grow">{children}</main>
+          <main className={"w-full flex flex-col grow " + className}>
+            {children}
+          </main>
         </div>
       </div>
       <Chatbar />

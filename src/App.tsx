@@ -16,6 +16,9 @@ import { useDispatch } from "react-redux";
 import { getServerErrors } from "./helpers/servererrors";
 import { toast } from "react-toastify";
 import { AnyAction } from "@reduxjs/toolkit";
+import LoaderPage from "./pages/loaderpage";
+import Profile from "./pages/profile";
+import Documents from "./pages/documents";
 
 function App() {
   const [{ jwt }, setCookie, removeCookie] = useCookies<
@@ -58,7 +61,7 @@ function App() {
           path="/signup"
           element={
             isLoading ? (
-              "LOADING"
+              <LoaderPage />
             ) : user._id ? (
               <NavigateTo path="/dashboard/home" />
             ) : (
@@ -66,15 +69,29 @@ function App() {
             )
           }
         />
+        <Route path="/user/:id" element={<Profile />} />
+        <Route path="/batches/documents" element={<Documents />} />
         <Route
           path="/signIn"
           element={
             isLoading ? (
-              "LOADING"
+              <LoaderPage />
             ) : user._id ? (
               <NavigateTo path="/dashboard/home" />
             ) : (
               <SignIn />
+            )
+          }
+        />
+        <Route
+          path="/"
+          element={
+            isLoading ? (
+              <LoaderPage />
+            ) : user._id ? (
+              <NavigateTo path="/dashboard/home" />
+            ) : (
+              <Landingpage />
             )
           }
         />
@@ -83,7 +100,7 @@ function App() {
           path="/dashboard/:tab"
           element={
             isLoading ? (
-              "LOADING"
+              <LoaderPage />
             ) : user._id ? (
               <Dashboard />
             ) : (
@@ -92,7 +109,6 @@ function App() {
           }
         />
         {/* allowed to all */}
-        <Route path="/landingpage" element={<Landingpage />} />
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>

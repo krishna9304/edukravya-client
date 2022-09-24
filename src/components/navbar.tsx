@@ -17,6 +17,13 @@ import {
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 import studylogo from "../assets/studylogo.svg";
 import Logo from "./logo";
+import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import { AnyAction } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
+import { removeUser, User } from "../redux/slices/user";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 function Navbar({
   extended,
@@ -25,11 +32,15 @@ function Navbar({
   extended: boolean;
   setExtended: Dispatch<SetStateAction<boolean>>;
 }) {
+  const user: User = useSelector<RootState, User>(
+    (state: RootState): User => state.user
+  );
+
   return (
     <>
-      <nav className="fixed z-10 top-0 left-0 w-full bg-primary-700 bg-opacity-90 backdrop-blur-sm px-2 pt-4 pb-2 items-center justify-between flex">
+      <nav className="fixed h-20 z-10 top-0 left-0 w-full bg-primary-700 bg-opacity-90 backdrop-blur-sm px-2 pt-4 pb-2 items-center justify-between flex">
         <div className="flex gap-4 items-center justify-center">
-          <Hamburger />
+          {user._id && <Hamburger _id={user._id} />}
           <Logo />
         </div>
         <div className="hidden sm:flex md:w-full md:justify-center items-center">
@@ -47,30 +58,35 @@ function Navbar({
             className="w-60 hidden sm:block md:w-96n-w-s/3 bg-white"
           />
         </div>
-        <div className="flex justify-center items-center">
-          {!extended && (
-            <Tooltip title="PROFILE">
-              <IconButton>
-                <Avatar />
-              </IconButton>
-            </Tooltip>
-          )}
-          <IconButton
-            onClick={() => {
-              setExtended((pe) => !pe);
-            }}
-          >
-            {extended ? (
-              <Tooltip title="COLLAPSE NAVBAR">
-                <CloseRounded />
-              </Tooltip>
-            ) : (
-              <Tooltip title="EXPAND NAVBAR">
-                <ExpandMoreRoundedIcon />
+        {user._id && (
+          <div className="flex justify-center items-center">
+            {!extended && (
+              <Tooltip title="PROFILE">
+                <IconButton>
+                  <Avatar src={user.avatar} />
+                </IconButton>
               </Tooltip>
             )}
-          </IconButton>
-        </div>
+            <IconButton
+              sx={{
+                color: "#fff",
+              }}
+              onClick={() => {
+                setExtended((pe) => !pe);
+              }}
+            >
+              {extended ? (
+                <Tooltip title="COLLAPSE NAVBAR">
+                  <CloseRounded />
+                </Tooltip>
+              ) : (
+                <Tooltip title="EXPAND NAVBAR">
+                  <ExpandMoreRoundedIcon />
+                </Tooltip>
+              )}
+            </IconButton>
+          </div>
+        )}
       </nav>
       {/* expanded nav */}
       <div
@@ -79,6 +95,7 @@ function Navbar({
       >
         <span className="w-60 rounded-full ring-8 hover:ring-4 ring-secondary-500 duration-300">
           <Avatar
+            src={user.avatar}
             sx={{
               width: "15rem",
               height: "15rem",
@@ -86,22 +103,29 @@ function Navbar({
           />
         </span>
         <div className="flex w-full gap-2 justify-between md:items-center">
-          <div className="flex flex-col w-full justify-center items-center md:items-start">
-            <div className="text-3xl md:text-5xl font-light text-white font-sans">
-              Dummy_Student
-            </div>
-            <div className="text-white italic underline font-mono flex gap-1 items-center justify-center px-2">
-              @student_student
+          <div className="flex gap-2 flex-col w-full justify-center items-center md:items-start">
+            <div className="flex gap-1 justify-center items-baseline">
+              <div className="text-3xl font-semibold md:text-5xl text-white font-sans">
+                {user.name}
+              </div>
               <Tooltip placement="right" title="COPY USERNAME">
-                <IconButton size="small">
-                  <ContentCopyRounded className="text-white" />
+                <IconButton
+                  onClick={() => {
+                    navigator.clipboard.writeText(
+                      `${location.origin}/user/${user._id}`
+                    );
+                  }}
+                  size="medium"
+                >
+                  <ContentCopyRounded
+                    fontSize={"medium"}
+                    className="text-white"
+                  />
                 </IconButton>
               </Tooltip>
             </div>
             <div className="max-w-sm text-white text-center md:text-start">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minus
-              beatae quo nobis assumenda voluptates dolore asperiores sint
-              expedita facere modi.
+              {user.bio}
             </div>
           </div>
           <div className="hidden lg:block max-w-sm transform">
@@ -113,9 +137,12 @@ function Navbar({
   );
 }
 
-function Hamburger() {
+function Hamburger({ _id }: { _id?: string }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [, , removeCookie] = useCookies(["jwt"]);
   const open: boolean = Boolean(anchorEl);
+  const dispatch: Dispatch<AnyAction> = useDispatch();
+
   const handleClick: (event: React.MouseEvent<HTMLButtonElement>) => void = (
     event: React.MouseEvent<HTMLButtonElement>
   ): void => {
@@ -146,9 +173,20 @@ function Hamburger() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>Download</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <Link to={`/user/${_id}`}>
+          <MenuItem onClick={handleClose}>Profile</MenuItem>
+        </Link>
+        <Link to="/batches/documents">
+          <MenuItem onClick={handleClose}>Documents</MenuItem>
+        </Link>
+        <MenuItem
+          onClick={() => {
+            removeCookie("jwt");
+            dispatch(removeUser({}));
+          }}
+        >
+          Logout
+        </MenuItem>
       </Menu>
     </div>
   );
