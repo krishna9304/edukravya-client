@@ -3,6 +3,7 @@ import Dashboard from "./pages/dashboard";
 import SignUp from "./pages/signup";
 import SignIn from "./pages/signIn";
 import PageNotFound from "./components/pagenotfound";
+import Landingpage from "./pages/landingpage";
 import { Dispatch, useEffect, useState } from "react";
 import server from "./axios";
 import { useCookies } from "react-cookie";
@@ -91,6 +92,7 @@ function App() {
           }
         />
         {/* allowed to all */}
+        <Route path="/landingpage" element={<Landingpage />} />
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
