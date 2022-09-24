@@ -2,35 +2,90 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Button, IconButton, Input, InputAdornment } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import validator from "validator";
+import server from "../axios";
 import Logo from "../components/logo";
-import {useSelector} from "react-redux"
-import {RootState} from "../redux/store";
-import {User} from "../redux/slices/user";
+import { setUser } from "../redux/slices/user";
+import { useCookies } from "react-cookie";
+import { useDispatch } from "react-redux";
+import { AxiosError } from "axios";
+import { toast } from "react-toastify";
+import { getServerErrors } from "../helpers/servererrors";
+import validator from "validator";
 
-interface Data {
-  emailOrUsername: string | null;
+interface SignInData {
+  email: string | null;
   password: string | null;
 }
 
-export default function SignUp() {
-  const [data, setData] = useState<Data>({
-    emailOrUsername: null,
+const getErrors: (signInData: SignInData) => string[] = (
+  signInData: SignInData
+): string[] => {
+  const errs: string[] = [];
+  if (signInData.email != null && !validator.isEmail(signInData.email + "")) {
+    errs.push("Invalid Email");
+  }
+  if (signInData.password != null && signInData.password.trim().length < 8) {
+    errs.push("Invalid Password");
+  }
+  return errs;
+};
+
+export default function SignIn() {
+  const [signInData, setSignInData] = useState<SignInData>({
+    email: null,
     password: null,
   });
+
+  const dispatch = useDispatch();
+  const [, setCookie] = useCookies(["jwt"]);
+
   const [isVisible, setIsVisible] = useState<boolean>(false);
+
+  const handleSignIn = () => {
+    if (
+      !getErrors(signInData).length &&
+      !Object.values(signInData).includes(null) &&
+      !Object.values(signInData).includes("")
+    ) {
+      server
+        .post("/api/user/login", {
+          email: signInData.email,
+          password: signInData.password,
+        })
+        .then(({ data }) => {
+          dispatch(setUser(data.user));
+          setCookie("jwt", data.token);
+          console.log(data);
+        })
+        .catch((err: AxiosError<any>) => {
+          getServerErrors(err).forEach((err: string) => {
+            toast.error(err);
+          });
+        });
+    }
+    if (getErrors(signInData).length) {
+      getErrors(signInData).forEach((err: string) => {
+        toast.error(err);
+      });
+    }
+    if (Object.values(signInData).includes(null)) {
+      Object.keys(signInData).forEach((key: string): void => {
+        if (!signInData[key as keyof SignInData])
+          toast.error(`field \`${key}\` can not be empty`);
+      });
+    }
+  };
+
   return (
     <div className="flex py-20 justify-center flex-col h-screen w-full items-center bg-indigo-400 bg-gradient-to-b from-primary-700 to-secondary-400">
-      <div className="flex px-10 items-center justify-center h-[100%] max-h-fit w-full max-w-4xl min-w-4xl rounded-xl">
-        <div
-          className="sm:flex hidden bg-[url(/images/signblue.jpg)] bg-no-repeat bg-cover flex-col justify-between h-full w-1/2 py-10 px-4 bg-primary-800 rounded-l-xl select-none"
-        >
-          <div className="font-black text-white md:text-4xl text-3xl">
+      <div className="flex px-10 items-center justify-center h-full max-h-fit w-full max-w-4xl min-w-4xl rounded-xl">
+        <div className="sm:flex hidden bg-[url(/images/signblue.jpg)] bg-no-repeat bg-cover flex-col justify-between h-full w-1/2 py-10 px-4 bg-primary-800 rounded-l-xl select-none">
+          <div className="font-black w-52 text-white md:text-4xl text-3xl">
             <Logo />
           </div>
-          <div className="flex flex-col px-10 items-end text-white">
+          <div className="flex flex-col gap-4 px-10 items-end text-white">
             <span className="font-bold md:text-4xl text-3xl">WELCOME PAGE</span>
-            <span className="text-lg font-semibold pt-4 pr-8">
+            <span className="text-lg font-semibold  pr-8">
               Sign In to <br /> continue access
             </span>
           </div>
@@ -38,23 +93,24 @@ export default function SignUp() {
             HAVE A GREAT DAY !!
           </div>
         </div>
-        <div className="flex gap-10 flex-col justify-center px-10 h-full w-full sm:w-1/2 bg-white rounded-xl sm:rounded-l-none">
+        <div className="flex gap-10 flex-col justify-between py-10 px-10 h-full w-full sm:w-1/2 bg-white rounded-xl sm:rounded-l-none">
           <div className="text-4xl font-black cursor-default">Sign In</div>
-          <div className="flex flex-col justify-around h-1/3">
+          <div className="flex flex-col h-1/2">
             <Input
               onChange={(e) => {
-                setData((prevData) => ({
+                setSignInData((prevData: SignInData) => ({
                   ...prevData,
-                  emailOrUsername: e.target.value,
+                  email: e.target.value,
                 }));
               }}
+              type="email"
               size="small"
               className="p-2 w-full text-gray-500 bg-white rounded-sm "
-              placeholder="Email Address or Username"
+              placeholder="email"
             />
             <Input
               onChange={(e) => {
-                setData((prevData) => ({
+                setSignInData((prevData) => ({
                   ...prevData,
                   password: e.target.value,
                 }));
@@ -81,9 +137,7 @@ export default function SignUp() {
           <div className="flex flex-col gap-2">
             <div>
               <Button
-                onClick={() => {
-                  console.log(data);
-                }}
+                onClick={handleSignIn}
                 color="success"
                 variant="contained"
                 className="w-full"
@@ -91,14 +145,6 @@ export default function SignUp() {
                 <div className="text-white">Sign In</div>
               </Button>
             </div>
-            <div className="flex items-center cursor-default">
-              <hr className="w-full" />
-              <div className="p-2 text-lg">or</div>
-              <hr className="w-full" />
-            </div>
-            <Button color="info" variant="contained" className="w-full">
-              <div className="text-white">Continue With Google</div>
-            </Button>
             <div className="text-sm text-right select-none">
               don't have an account?
               <Link to="/signup" className="pl-1 font-bold cursor-pointer">
