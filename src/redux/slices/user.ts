@@ -14,7 +14,7 @@ export interface User {
   phoneVerified?: boolean;
 }
 const initialState: User = {
-  _id: "LOL",
+  _id: undefined,
   name: undefined,
   email: undefined,
   phone: undefined,

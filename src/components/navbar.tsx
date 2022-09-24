@@ -16,9 +16,7 @@ import {
 } from "@mui/icons-material";
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 import studylogo from "../assets/studylogo.svg";
-import { Link } from "react-router-dom";
 import Logo from "./logo";
-import { isSaturday } from "date-fns";
 
 function Navbar({
   extended,
