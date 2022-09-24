@@ -10,17 +10,15 @@ export interface CarouselCardData {
 
 function CarouselCard({
   carouselCardData,
-  small = true,
 }: {
   carouselCardData: CarouselCardData;
-  small?: boolean;
 }) {
   return (
     <div
-      className={`min-w-[calc(100vw-5rem)] hover:scale-105 snap-center lg:min-w-[calc(44vw)] rounded-3xl bg-primary-600 flex duration-300`}
+      className={`min-w-[calc(100vw-5rem)] hover:ring-8 snap-center lg:min-w-[calc(44vw)] rounded-3xl bg-primary-600 flex duration-300`}
     >
       <div
-        className="w-1/2 flex px-8 lg:px-12 py-4 lg:py-6"
+        className="sm:w-1/2 flex px-8 lg:px-12 py-4 lg:py-6"
         style={{ justifyContent: "flex-end" }}
       >
         <div className="flex flex-col grow space-y-1">
@@ -46,7 +44,7 @@ function CarouselCard({
           </div>
         </div>
       </div>
-      <div className="hidden  w-1/2 sm:flex space-x-[-100%]">
+      <div className="hidden w-1/2 sm:flex space-x-[-100%]">
         <img
           style={{
             objectFit: "cover",

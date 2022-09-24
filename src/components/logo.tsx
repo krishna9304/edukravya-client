@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import edukravyaImage from "../assets/edukravya-grid-cyan-final.png";
+
 function Logo({
   className = "",
   size = "3xl",
@@ -13,7 +14,7 @@ function Logo({
   color?: string;
 }) {
   return (
-    <Link to="/dashboard/home" className="-translate-y-1">
+    <Link to="/dashboard/home" className="-translate-y-1 select-none">
       <div
         className={`${
           size == "sm"
@@ -81,4 +82,5 @@ function Logo({
     </Link>
   );
 }
+
 export default Logo;

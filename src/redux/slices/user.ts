@@ -1,5 +1,10 @@
-import { createSlice, Slice, SliceCaseReducers } from "@reduxjs/toolkit";
-import type { PayloadAction, AnyAction } from "@reduxjs/toolkit";
+import {
+  AnyAction,
+  createSlice,
+  Slice,
+  SliceCaseReducers,
+} from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 import { Reducer } from "react";
 
 export interface User {
@@ -13,7 +18,8 @@ export interface User {
   emailVerified?: boolean;
   phoneVerified?: boolean;
 }
-const initialState: User = {
+
+const initialUser: User = {
   _id: undefined,
   name: undefined,
   email: undefined,
@@ -31,7 +37,7 @@ export const userSlice: Slice<
   string
 > = createSlice({
   name: "user",
-  initialState,
+  initialState: initialUser,
   reducers: {
     setUser: (state: User, action: PayloadAction<User>): User => {
       state = {
@@ -41,7 +47,7 @@ export const userSlice: Slice<
       return state;
     },
     removeUser: (state: User): User => {
-      state = initialState;
+      state = initialUser;
       return state;
     },
   },
@@ -49,5 +55,5 @@ export const userSlice: Slice<
 
 export const { setUser, removeUser } = userSlice.actions;
 
-const userReducer = userSlice.reducer;
+const userReducer: Reducer<User, AnyAction> = userSlice.reducer;
 export default userReducer;

@@ -9,10 +9,16 @@ import NavigateTo from "../components/navigateto";
 import PageNotFound from "../components/pagenotfound";
 
 function Dashboard() {
-  let {tab}=useParams();
-  const validTabs:string[]=["home", "batches", "learningtree", "tests", "books"]
-  return (tab && 
-    validTabs.includes(tab)?<PageWithBottomNav extendedNav={false}>
+  let { tab } = useParams();
+  const validTabs: string[] = [
+    "home",
+    "batches",
+    "learningtree",
+    "tests",
+    "books",
+  ];
+  return tab && validTabs.includes(tab) ? (
+    <PageWithBottomNav extendedNav={true}>
       <div className="w-full flex grow">
         {tab == validTabs[0] ? (
           <Home />
@@ -28,8 +34,9 @@ function Dashboard() {
           <NavigateTo path="/pagenotfound" />
         )}
       </div>
-    </PageWithBottomNav>:
-      <PageNotFound/>
+    </PageWithBottomNav>
+  ) : (
+    <PageNotFound />
   );
 }
 

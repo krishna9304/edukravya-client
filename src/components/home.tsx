@@ -6,7 +6,6 @@ import {
   ContentPasteGoRounded,
 } from "@mui/icons-material";
 import Carousel from "./carousel";
-import BatchCard from "../components/batchcard";
 import { Link } from "react-router-dom";
 import edukravyaImage from "../assets/edukravya-grid-cyan-final.png";
 function Home() {
@@ -28,10 +27,10 @@ function Home() {
           />
           <span> to learn effectively</span>
         </div>
-        <div className="flex w-screen flex-wrap bg-secondary px-10 py-6 justify-between rounded-lg gap-2">
+        <div className="flex w-screen flex-wrap bg-secondary px-10 py-6 rounded-lg gap-2">
           <Link
             to="/dashboard/home"
-            className="flex grow items-center max-w-MIN justify-between bg-slate-300 p-4 rounded-lg gap-2"
+            className="flex grow items-center max-w-fit bg-slate-300 p-4 rounded-lg gap-2"
           >
             <HomeOutlined fontSize="large" />
             <span className="flex-wrap">
@@ -40,7 +39,7 @@ function Home() {
           </Link>
           <Link
             to="/dashboard/batches"
-            className="flex grow items-center justify-between bg-slate-300 p-4 rounded-lg gap-2"
+            className="flex grow items-center max-w-fit justify-between bg-slate-300 p-4 rounded-lg gap-2"
           >
             <AllInboxOutlined fontSize="large" />
             <span className="flex-wrap">
@@ -49,7 +48,7 @@ function Home() {
           </Link>
           <Link
             to="/dashboard/learningtree"
-            className="flex grow items-center max-w-MIN justify-between bg-slate-300 p-4 rounded-lg gap-2"
+            className="flex grow items-center max-w-fit bg-slate-300 p-4 rounded-lg gap-2"
           >
             <AccountTreeOutlined fontSize="large" />
             <span className="flex-wrap">
@@ -58,7 +57,7 @@ function Home() {
           </Link>
           <Link
             to="/dashboard/tests"
-            className="flex grow items-center max-w-MIN justify-between bg-slate-300 p-4 rounded-lg gap-2"
+            className="flex grow items-center max-w-fit bg-slate-300 p-4 rounded-lg gap-2"
           >
             <ContentPasteGoRounded fontSize="large" />
             <span className="flex-wrap">
@@ -68,7 +67,7 @@ function Home() {
           </Link>
           <Link
             to="/dashboard/books"
-            className="flex grow items-center max-w-MIN justify-between bg-slate-300 p-4 rounded-lg gap-2"
+            className="flex grow items-center max-w-fit bg-slate-300 p-4 rounded-lg gap-2"
           >
             <StyleOutlined fontSize="large" />
             <span className="flex-wrap">
@@ -94,49 +93,6 @@ function Home() {
           <div className="bg-blue-300 rounded-lg p-5 font-semibold">
             UPSC AND OTHER CIVIL SERVICE EXAMS
           </div>
-        </div>
-      </div>
-      <div className="px-10 w-screen py-4 flex flex-col gap-3">
-        <div className="font-bold text-xl">
-          Batches you might want to explore !!
-        </div>
-        <div className="p-4 overflow-auto rounded-lg bg-slate-300 flex gap-4">
-          <BatchCard
-            thumbnail={"../src/assets/demobatch.svg"}
-            title="Batch title"
-          />
-          <BatchCard
-            thumbnail={"../src/assets/demobatch.svg"}
-            title="Batch title"
-          />
-          <BatchCard
-            thumbnail={"../src/assets/demobatch.svg"}
-            title="Batch title"
-          />
-          <BatchCard
-            thumbnail={"../src/assets/demobatch.svg"}
-            title="Batch title"
-          />
-          <BatchCard
-            thumbnail={"../src/assets/demobatch.svg"}
-            title="Batch title"
-          />
-          <BatchCard
-            thumbnail={"../src/assets/demobatch.svg"}
-            title="Batch title"
-          />
-          <BatchCard
-            thumbnail={"../src/assets/demobatch.svg"}
-            title="Batch title"
-          />
-          <BatchCard
-            thumbnail={"../src/assets/demobatch.svg"}
-            title="Batch title"
-          />
-          <BatchCard
-            thumbnail={"../src/assets/demobatch.svg"}
-            title="Batch title"
-          />
         </div>
       </div>
     </div>
