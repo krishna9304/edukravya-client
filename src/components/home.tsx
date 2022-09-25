@@ -91,9 +91,12 @@ function Home() {
           <div className="bg-green-300 rounded-lg p-5 font-semibold">
             IIT-JEE MAINS AND ADVANCE EXAMS
           </div>
-          <div className="bg-pink-300 rounded-lg p-5 font-semibold">
+          <Link
+            to="/dashboard/batches#medical"
+            className="bg-pink-300 rounded-lg p-5 font-semibold"
+          >
             NEET AND OTHER MEDICAL EXAMS
-          </div>
+          </Link>
           <div className="bg-orange-300 rounded-lg p-5 font-semibold">
             NDA AND RECRUITMENT EXAMS
           </div>

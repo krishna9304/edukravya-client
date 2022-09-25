@@ -109,7 +109,7 @@ function Chatbar() {
                     <div
                       className={`${
                         currentUser == name &&
-                        " scroll-ml-2 snap-start duration-300 ring-black rounded-full"
+                        " scroll-ml-2 md:snap-start snap-center duration-300 ring-black rounded-full"
                       }`}
                       onClick={(): void => setCurrentUser(name)}
                     >
