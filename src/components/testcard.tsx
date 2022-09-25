@@ -1,5 +1,4 @@
 import { Button } from "@mui/material";
-import TouchRipple from "@mui/material/ButtonBase/TouchRipple";
 
 interface TestData {
   name: string;
@@ -9,6 +8,7 @@ interface TestData {
   marks: number;
   questions: number;
 }
+
 function TestCard({ testData }: { testData: TestData }) {
   return (
     <div className="rounded-xl snap-start h-full cursor-pointer border border-primary-700">
