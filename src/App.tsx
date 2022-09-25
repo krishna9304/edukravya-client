@@ -19,6 +19,7 @@ import { AnyAction } from "@reduxjs/toolkit";
 import LoaderPage from "./pages/loaderpage";
 import Profile from "./pages/profile";
 import Documents from "./pages/documents";
+import AuthProtectedPage from "./components/authprotectedpage";
 
 function App() {
   const [{ jwt }, setCookie, removeCookie] = useCookies<
@@ -32,11 +33,10 @@ function App() {
     (state: RootState): User => state.user
   );
   const dispatch: Dispatch<AnyAction> = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect((): (() => void) => {
     if (jwt) {
-      setIsLoading(true);
       server.defaults.headers.common["x-access-token"] = jwt;
       server
         .get("/api/user/self")
@@ -69,8 +69,6 @@ function App() {
             )
           }
         />
-        <Route path="/user/:id" element={<Profile />} />
-        <Route path="/batches/documents" element={<Documents />} />
         <Route
           path="/signIn"
           element={
@@ -86,26 +84,34 @@ function App() {
         <Route
           path="/"
           element={
-            isLoading ? (
-              <LoaderPage />
-            ) : user._id ? (
-              <NavigateTo path="/dashboard/home" />
-            ) : (
+            <AuthProtectedPage isLoading={isLoading}>
               <Landingpage />
-            )
+            </AuthProtectedPage>
           }
         />
         {/* not allowed for unauthenticated users */}
         <Route
+          path="/user/:id"
+          element={
+            <AuthProtectedPage isLoading={isLoading}>
+              <Profile />
+            </AuthProtectedPage>
+          }
+        />
+        <Route
+          path="/batches/documents"
+          element={
+            <AuthProtectedPage isLoading={isLoading}>
+              <Documents />
+            </AuthProtectedPage>
+          }
+        />
+        <Route
           path="/dashboard/:tab"
           element={
-            isLoading ? (
-              <LoaderPage />
-            ) : user._id ? (
+            <AuthProtectedPage isLoading={isLoading}>
               <Dashboard />
-            ) : (
-              <NavigateTo path="/signup" />
-            )
+            </AuthProtectedPage>
           }
         />
         {/* allowed to all */}

@@ -1,7 +1,9 @@
-import React from "react";
+import { useParams } from "react-router-dom";
+import Page from "../components/page";
 
 function Profile() {
-  return <div>Profile</div>;
+  const { id } = useParams();
+  return <Page>{id}</Page>;
 }
 
 export default Profile;

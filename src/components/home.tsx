@@ -8,11 +8,18 @@ import {
 import Carousel from "./carousel";
 import { Link } from "react-router-dom";
 import edukravyaImage from "../assets/edukravya.png";
+import { User } from "../redux/slices/user";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+
 function Home() {
+  const user: User = useSelector<RootState, User>(
+    (state: RootState): User => state.user
+  );
   return (
     <div className="flex flex-col grow pb-20">
       <div className="flex items-center text-2xl font-semibold gap-2 pt-4 px-10">
-        Hi, Dummy_student !!
+        Hi, {user.name}!
       </div>
       <div className="w-screen flex flex-col justify-center items-center">
         <Carousel />
