@@ -11,7 +11,7 @@ interface TestData {
 
 function TestCard({ testData }: { testData: TestData }) {
   return (
-    <div className="rounded-xl snap-start h-full cursor-pointer border border-primary-700">
+    <div className="rounded-xl snap-center md:snap-start h-full cursor-pointer border border-primary-700">
       <div className="font-bold text-white flex justify-center rounded-t-xl text-lg bg-primary-700 px-7 py-2">
         {testData.name}
       </div>

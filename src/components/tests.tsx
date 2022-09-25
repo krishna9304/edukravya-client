@@ -37,8 +37,8 @@ function Tests() {
   return (
     <div className="flex flex-col px-4 lg:flex-row-reverse w-screen">
       <div className="w-full flex justify-center py-6">
-        <div className="pt-24 px-4">
-          <div className="bg-primary md:sticky top-32 py-4 px-8 rounded-xl max-w-fit bg-primary-500">
+        <div className="lg:pt-24 w-screen lg:max-w-fit sm:px-4">
+          <div className="bg-primary lg:sticky top-32 py-6 lg:py-4 px-4 lg:px-8 rounded-xl lg:max-w-fit min-w-max bg-primary-500">
             <div className="flex gap-2 justify-between items-center">
               <span className="text-white text-xl min-w-max">
                 {toppers.testName} Results
@@ -93,26 +93,29 @@ function Tests() {
                   </span>
                 </div>
                 <div className="font-bold text-lg">Your Result</div>
-                <div className="bg-white py-2 px-4 rounded-lg w-full flex gap-2">
-                  <div className="">
-                    <div className="flex min-w-max text-md font-semibold gap-2 items-center">
+                <div className="bg-white py-2 px-2 md:px-4 rounded-lg w-full flex justify-around gap-2">
+                  <div className="flex flex-col w-full">
+                    <div className="flex min-w-max text-lg font-semibold md:gap-4 items-center">
                       <div>{myResult.name}</div>
-                      <div>Rank: {myResult.rank}</div>
+                      <div className="border-l h-2/3" />
+                      <div className="flex items-center justify-center text-center">
+                        Rank: {myResult.rank}
+                      </div>
                     </div>
-                    <div className="flex justify-between gap-2">
+                    <div className="flex justify-around w-2/3 gap-2">
                       <div className="font-semibold text-green-500 px-2 py-2 flex flex-col justify-center items-center">
                         <div>Correct</div>
                         <div>{myResult.correct}</div>
                       </div>
                       <div className="border-l-2 rounded-full" />
-                      <div className="font-semibold text-red-500 rounded-md px-2 py-2 flex flex-col justify-center items-center">
+                      <div className="font-semibold text-red-500 rounded-lg px-2 py-2 flex flex-col justify-center items-center">
                         <div>Wrong</div>
                         <div>{myResult.wrong}</div>
                       </div>
                     </div>
                   </div>
                   <div
-                    className={`font-semibold border-l-2 rounded-md px-2 py-2 flex flex-col justify-center items-center`}
+                    className={`font-semibold bg-gray-200 w-1/3 rounded-lg px-2 py-2 flex flex-col justify-center items-center`}
                   >
                     {myResult.marks}%
                   </div>
@@ -122,6 +125,7 @@ function Tests() {
           </div>
         </div>
       </div>
+      {/* sep */}
       <div className="pb-16 flex 2xl:w-3/4 flex-col gap-2">
         <div className="text-2xl font-bold px-10 pt-6 flex justify-between">
           TESTS
@@ -194,7 +198,7 @@ function Tests() {
           </div>
         </div>
         <div className="px-5 sm:px-10 py-4 flex flex-col gap-3">
-          <div className="font-bold text-xl uppercase">Previous Teste</div>
+          <div className="font-bold text-xl uppercase">Previous Tests</div>
           <div className="p-4 overflow-auto rounded-lg bg-gradient-to-r from-primary-200 via-secondary-200 to-primary-200">
             <div className="snap-x snap-mandatory rounded-sm overflow-auto flex gap-4">
               <TestCard
