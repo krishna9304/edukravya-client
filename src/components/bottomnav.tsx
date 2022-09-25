@@ -11,7 +11,7 @@ function Homenav({ className = "" }: { className?: string }) {
   let { tab } = useParams();
   return (
     <nav
-      className={`flex z-10 hover:z-30 fixed bottom-0 text-white rounded-lg gap-16 px-8 border bg-gray-900 max-w-min ${className}`}
+      className={`flex z-10 hover:z-30 fixed bottom-0 text-white rounded-lg gap-16 px-8 border bg-gray-900 bg-opacity-90 backdrop-blur-sm max-w-min ${className}`}
     >
       <div
         className={
