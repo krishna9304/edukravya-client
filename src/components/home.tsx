@@ -7,7 +7,7 @@ import {
 } from "@mui/icons-material";
 import Carousel from "./carousel";
 import { Link } from "react-router-dom";
-import edukravyaImage from "../assets/edukravya-grid-cyan-final.png";
+import edukravyaImage from "../assets/edukravya.png";
 function Home() {
   return (
     <div className="flex flex-col grow pb-20">

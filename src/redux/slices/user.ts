@@ -1,11 +1,5 @@
-import {
-  AnyAction,
-  createSlice,
-  Slice,
-  SliceCaseReducers,
-} from "@reduxjs/toolkit";
+import { createSlice, Slice, SliceCaseReducers } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { Reducer } from "react";
 
 export interface User {
   _id?: string;
@@ -55,5 +49,5 @@ export const userSlice: Slice<
 
 export const { setUser, removeUser } = userSlice.actions;
 
-const userReducer: Reducer<User, AnyAction> = userSlice.reducer;
+const userReducer = userSlice.reducer;
 export default userReducer;

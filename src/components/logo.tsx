@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import edukravyaImage from "../assets/edukravya-grid-cyan-final.png";
+import edukravyaImage from "../assets/edukravya.png";
 
 function Logo({
   className = "",
