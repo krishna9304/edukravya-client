@@ -10,7 +10,7 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import { useState } from "react";
+import { Dispatch, useState } from "react";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
 import validator from "validator";
@@ -21,13 +21,14 @@ import { setUser } from "../redux/slices/user";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { getServerErrors } from "../helpers/servererrors";
+import { AnyAction } from "@reduxjs/toolkit";
 
 interface SignUpData {
   name: string | null;
   email: string | null;
   phone: string | null;
   password: string | null;
-  userId: string;
+  userId: string | null;
   userType: "student" | "educator";
 }
 
@@ -54,14 +55,14 @@ export default function SignUp() {
   const [signUpData, setSignUpData] = useState<SignUpData>({
     name: null,
     email: null,
-    userId: "1234567890",
+    userId: null,
     phone: null,
     password: null,
     userType: "student",
   });
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  const dispatch = useDispatch();
+  const dispatch: Dispatch<AnyAction> = useDispatch();
   const [, setCookie] = useCookies(["jwt"]);
 
   const handleSignup: () => void = (): void => {
@@ -142,11 +143,13 @@ export default function SignUp() {
               error={
                 signUpData.name != null && signUpData.name.trim().length < 8
               }
-              onChange={(e) => {
-                setSignUpData((prevData) => ({
-                  ...prevData,
-                  name: e.target.value,
-                }));
+              onChange={(e): void => {
+                setSignUpData(
+                  (prevData: SignUpData): SignUpData => ({
+                    ...prevData,
+                    name: e.target.value,
+                  })
+                );
               }}
               size="small"
               className="px-2 py-2 w-full text-gray-500 bg-white rounded-sm "
@@ -154,14 +157,32 @@ export default function SignUp() {
             />
             <Input
               error={
+                signUpData.userId != null && signUpData.userId.trim().length < 8
+              }
+              onChange={(e): void => {
+                setSignUpData(
+                  (prevData: SignUpData): SignUpData => ({
+                    ...prevData,
+                    userId: e.target.value,
+                  })
+                );
+              }}
+              size="small"
+              className="px-2 py-2 w-full text-gray-500 bg-white rounded-sm "
+              placeholder="Username"
+            />
+            <Input
+              error={
                 signUpData.phone != null &&
                 !validator.isMobilePhone(signUpData.phone + "")
               }
-              onChange={(e) => {
-                setSignUpData((prevData) => ({
-                  ...prevData,
-                  phone: e.target.value,
-                }));
+              onChange={(e): void => {
+                setSignUpData(
+                  (prevData: SignUpData): SignUpData => ({
+                    ...prevData,
+                    phone: e.target.value,
+                  })
+                );
               }}
               type="tel"
               size="small"
@@ -169,11 +190,13 @@ export default function SignUp() {
               placeholder="Phone"
             />
             <Input
-              onChange={(e) => {
-                setSignUpData((prevData) => ({
-                  ...prevData,
-                  password: e.target.value,
-                }));
+              onChange={(e): void => {
+                setSignUpData(
+                  (prevData: SignUpData): SignUpData => ({
+                    ...prevData,
+                    password: e.target.value,
+                  })
+                );
               }}
               error={
                 signUpData.password != null &&
@@ -187,8 +210,8 @@ export default function SignUp() {
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
-                    onClick={() => {
-                      setIsVisible((pv) => !pv);
+                    onClick={(): void => {
+                      setIsVisible((pv: boolean): boolean => !pv);
                     }}
                     edge="end"
                   >
@@ -211,12 +234,14 @@ export default function SignUp() {
                 defaultValue="student"
                 name="user-type"
                 row
-                onChange={(e) => {
-                  setSignUpData((pd) => ({
-                    ...pd,
-                    userType:
-                      e.target.value == "student" ? "student" : "educator",
-                  }));
+                onChange={(e): void => {
+                  setSignUpData(
+                    (pd: SignUpData): SignUpData => ({
+                      ...pd,
+                      userType:
+                        e.target.value == "student" ? "student" : "educator",
+                    })
+                  );
                 }}
               >
                 <FormControlLabel

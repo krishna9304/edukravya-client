@@ -18,7 +18,7 @@ const initialUser: User = {
   name: undefined,
   email: undefined,
   phone: undefined,
-  bio: "Default bio",
+  bio: undefined,
   userType: undefined,
   avatar: undefined,
   emailVerified: undefined,

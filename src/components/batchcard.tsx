@@ -19,30 +19,9 @@ export default function BatchCard({ batchData }: { batchData: BatchData }) {
         src={batchData.thumbnail}
         alt="batch thumbnail"
       />
-      <div className="flex justify-between py-2 sm:flex-col items-center">
-        <div className="py-2 h-full text-white font-semibold min-w-fit">
+      <div className="flex w-full justify-between sm:flex-col items-center">
+        <div className="py-2 w-full flex justify-between px-2 h-full text-white font-semibold min-w-fit">
           {batchData.title}
-        </div>
-        <div className="flex flex-row-reverse sm:flex-row w-full justify-between gap-2">
-          <Tooltip title="copy Batch Link" className="hidden sm:block">
-            <Button
-              onClick={() =>
-                navigator.clipboard
-                  .writeText(`${location.origin}/batch/${batchData.batchId}`)
-                  .then(() => toast.success("Batch Link Copied"))
-                  .catch(() => toast.error("Failed to share Link"))
-              }
-              color="info"
-              sx={{
-                fontWeight: 600,
-                fontSize: 12,
-              }}
-              variant="contained"
-              size="small"
-            >
-              Share
-            </Button>
-          </Tooltip>
           <Link to={`/batch/${batchData.batchId}`}>
             <Button
               color="info"
