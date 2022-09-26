@@ -13,13 +13,13 @@ import { RootState } from "./redux/store";
 import NavigateTo from "./components/navigateto";
 import { AxiosResponse } from "axios";
 import { useDispatch } from "react-redux";
-import { getServerErrors } from "./helpers/servererrors";
-import { toast } from "react-toastify";
 import { AnyAction } from "@reduxjs/toolkit";
 import LoaderPage from "./pages/loaderpage";
-import Profile from "./pages/profile";
 import Documents from "./pages/documents";
 import AuthProtectedPage from "./components/authprotectedpage";
+import Profile from "./pages/profile";
+import { connect } from "socket.io-client";
+import { serverURL } from "./constants";
 
 function App() {
   const [{ jwt }, setCookie, removeCookie] = useCookies<
@@ -42,13 +42,16 @@ function App() {
         .get("/api/user/self")
         .then(({ data: userData }: AxiosResponse<User>): void => {
           dispatch(setUser(userData));
+          const socket = connect(serverURL);
           // setCookie("jwt",userData.token);
           setIsLoading(false);
         })
         .catch((): void => {
-          removeCookie("jwt");
+          // removeCookie("jwt");
           setIsLoading(false);
         });
+    } else {
+      setIsLoading(false);
     }
     return () => {};
   }, [jwt]);

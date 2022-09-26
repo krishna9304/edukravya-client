@@ -32,7 +32,7 @@ function CarouselCard({
           <div className="flex h-full justify-center items-end p-2">
             <Link to={carouselCardData.to}>
               <Button
-                color="secondary"
+                color="info"
                 sx={{
                   fontWeight: 600,
                 }}

@@ -12,7 +12,7 @@ export default function Landingpage() {
           <Logo size="4xl" />
         </div>
       </div>
-      <div className="hidden md:w-3/5 min-h-screen bg-white" />
+      <div className="hidden md:w-3/5 min-h-screen bg-seconodary-100" />
       <div className="flex px-4 justify-around items-center w-full min-h-screen fixed top-0 left-0 sm:px-[10vw]">
         <div className="m-2 flex flex-col justify-between bg-gray-200 w-fit max-w-3xl rounded-sm aspect-video py-16 px-10">
           <div>

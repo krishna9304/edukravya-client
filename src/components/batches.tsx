@@ -5,44 +5,44 @@ import batchImg from "../assets/demobatch.svg";
 function Batches() {
   const [myBatches, setMyBatches] = useState<BatchData[]>([
     {
-      batchPage: "/batch/1234567890",
+      batchId: "1234567890",
       thumbnail: batchImg,
       title: "Batch Title",
     },
     {
-      batchPage: "/batch/1234567890",
+      batchId: "1234567890",
       thumbnail: batchImg,
       title: "Batch Title",
     },
     {
-      batchPage: "/batch/1234567890",
+      batchId: "1234567890",
       thumbnail: batchImg,
       title: "Batch Title",
     },
     {
-      batchPage: "/batch/1234567890",
+      batchId: "1234567890",
       thumbnail: batchImg,
       title: "Batch Title",
     },
   ]);
   const [mayLikeBatches, setMayLikeBatches] = useState<BatchData[]>([
     {
-      batchPage: "/batch/1234567890",
+      batchId: "1234567890",
       thumbnail: batchImg,
       title: "Batch Title",
     },
     {
-      batchPage: "/batch/1234567890",
+      batchId: "1234567890",
       thumbnail: batchImg,
       title: "Batch Title",
     },
     {
-      batchPage: "/batch/1234567890",
+      batchId: "1234567890",
       thumbnail: batchImg,
       title: "Batch Title",
     },
     {
-      batchPage: "/batch/1234567890",
+      batchId: "1234567890",
       thumbnail: batchImg,
       title: "Batch Title",
     },
@@ -50,66 +50,66 @@ function Batches() {
 
   const [medicalBatches, setmedicalBatches] = useState<BatchData[]>([
     {
-      batchPage: "/batch/1234567890",
+      batchId: "1234567890",
       thumbnail: batchImg,
       title: "Batch Title",
     },
     {
-      batchPage: "/batch/1234567890",
+      batchId: "1234567890",
       thumbnail: batchImg,
       title: "Batch Title",
     },
     {
-      batchPage: "/batch/1234567890",
+      batchId: "1234567890",
       thumbnail: batchImg,
       title: "Batch Title",
     },
     {
-      batchPage: "/batch/1234567890",
+      batchId: "1234567890",
       thumbnail: batchImg,
       title: "Batch Title",
     },
   ]);
   const [engineeringBatches, setEngineeringBatches] = useState<BatchData[]>([
     {
-      batchPage: "/batch/1234567890",
+      batchId: "1234567890",
       thumbnail: batchImg,
       title: "Batch Title",
     },
     {
-      batchPage: "/batch/1234567890",
+      batchId: "1234567890",
       thumbnail: batchImg,
       title: "Batch Title",
     },
     {
-      batchPage: "/batch/1234567890",
+      batchId: "1234567890",
       thumbnail: batchImg,
       title: "Batch Title",
     },
     {
-      batchPage: "/batch/1234567890",
+      batchId: "1234567890",
       thumbnail: batchImg,
       title: "Batch Title",
     },
   ]);
   const [civilBatches, setCivilBatches] = useState<BatchData[]>([
     {
-      batchPage: "/batch/1234567890",
+      batchId: "1234567890",
       thumbnail: batchImg,
       title: "Batch Title",
     },
     {
-      batchPage: "/batch/1234567890",
+      batchId: "1234567890",
       thumbnail: batchImg,
       title: "Batch Title",
     },
     {
-      batchPage: "/batch/1234567890",
+      batchId: "1234567890",
       thumbnail: batchImg,
       title: "Batch Title",
     },
     {
-      batchPage: "/batch/1234567890",
+      batchId: "1234567890",
       thumbnail: batchImg,
       title: "Batch Title",
     },
@@ -124,9 +124,9 @@ function Batches() {
         <div className="font-bold text-xl">My batches </div>
         <div className="p-4 rounded-3xl bg-gradient-to-r from-primary-200 via-secondary-200 to-primary-200">
           <div className="flex rounded-sm snap-x snap-mandatory overflow-auto gap-4">
-            {myBatches.map((batch: BatchData, idx: number) => {
-              return <BatchCard key={idx} batchData={batch} />;
-            })}
+            {myBatches.map((batch: BatchData, idx: number) => (
+              <BatchCard key={idx} batchData={batch} />
+            ))}
           </div>
         </div>
       </div>
@@ -136,9 +136,9 @@ function Batches() {
         </div>
         <div className="p-4 rounded-3xl bg-gradient-to-r from-primary-200 via-secondary-200 to-primary-200">
           <div className="flex rounded-sm snap-x snap-mandatory overflow-auto gap-4">
-            {mayLikeBatches.map((batch: BatchData, idx: number) => {
-              return <BatchCard key={idx} batchData={batch} />;
-            })}
+            {mayLikeBatches.map((batch: BatchData, idx: number) => (
+              <BatchCard key={idx} batchData={batch} />
+            ))}
           </div>
         </div>
       </div>
@@ -146,20 +146,19 @@ function Batches() {
         <div className="font-bold text-xl">Medical Enterance Batches</div>
         <div className="p-4 rounded-3xl bg-gradient-to-r from-primary-200 via-secondary-200 to-primary-200">
           <div className="flex rounded-sm snap-x snap-mandatory overflow-auto gap-4">
-            {medicalBatches.map((batch: BatchData, idx: number) => {
-              return <BatchCard key={idx} batchData={batch} />;
-            })}
+            {medicalBatches.map((batch: BatchData, idx: number) => (
+              <BatchCard key={idx} batchData={batch} />
+            ))}
           </div>
         </div>
       </div>
-
       <div className="px-5 sm:px-10 w-screen py-4 flex flex-col gap-3">
         <div className="font-bold text-xl">Engineering Enterance Batches</div>
         <div className="p-4 rounded-3xl bg-gradient-to-r from-primary-200 via-secondary-200 to-primary-200">
           <div className="flex rounded-sm snap-x snap-mandatory overflow-auto gap-4">
-            {engineeringBatches.map((batch: BatchData, idx: number) => {
-              return <BatchCard key={idx} batchData={batch} />;
-            })}
+            {engineeringBatches.map((batch: BatchData, idx: number) => (
+              <BatchCard key={idx} batchData={batch} />
+            ))}
           </div>
         </div>
       </div>
@@ -167,9 +166,9 @@ function Batches() {
         <div className="font-bold text-xl">Civil Services Exam Batches</div>
         <div className="p-4 rounded-3xl bg-gradient-to-r from-primary-200 via-secondary-200 to-primary-200">
           <div className="flex rounded-sm snap-x snap-mandatory overflow-auto gap-4">
-            {civilBatches.map((batch: BatchData, idx: number) => {
-              return <BatchCard key={idx} batchData={batch} />;
-            })}
+            {civilBatches.map((batch: BatchData, idx: number) => (
+              <BatchCard key={idx} batchData={batch} />
+            ))}
           </div>
         </div>
       </div>

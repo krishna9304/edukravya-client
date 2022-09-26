@@ -5,9 +5,9 @@ function Loader() {
   const [isToRight, setIsToRight] = useState(false);
   const props = useSpring({
     to: {
-      transform: `translateX(5rem)`,
+      transform: `translateX(6.75rem)`,
       height: "0.75rem",
-      width: "2.5rem",
+      width: "0.75rem",
       borderTopRightRadius: "0.5rem",
       borderBottomRightRadius: "0.5rem",
       borderTopLeftRadius: "0.5rem",
