@@ -72,9 +72,9 @@ export default function SignIn() {
   };
 
   return (
-    <div className="flex py-20 justify-center flex-col h-screen w-full items-center bg-indigo-400 bg-gradient-to-b from-primary-700 to-secondary-400">
+    <div className="flex py-20 justify-center flex-col h-screen w-full items-center bg-indigo-400 bg-gradient-to-b from-purple-700 to-blue-600">
       <div className="flex px-10 items-center justify-center h-full max-h-fit w-full max-w-4xl min-w-4xl rounded-xl">
-        <div className="sm:flex hidden bg-[url(/images/signblue.jpg)] bg-no-repeat bg-cover flex-col justify-between h-full w-1/2 py-10 px-4 bg-primary-800 rounded-l-xl select-none">
+        <div className="sm:flex hidden bg-[url(/images/signbg.webp)] bg-no-repeat bg-cover flex-col justify-between h-full w-1/2 py-10 px-4 bg-primary-800 rounded-l-xl select-none">
           <div className="font-black w-52 text-white md:text-4xl text-3xl">
             <Logo />
           </div>
