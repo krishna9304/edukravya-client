@@ -89,14 +89,7 @@ function App() {
             )
           }
         />
-        <Route
-          path="/"
-          element={
-            <AuthProtectedPage isLoading={isLoading}>
-              <Landingpage />
-            </AuthProtectedPage>
-          }
-        />
+        <Route path="/" element={<Landingpage />} />
         {/* not allowed for unauthenticated users */}
         <Route
           path="/user/:id"

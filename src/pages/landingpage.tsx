@@ -7,7 +7,7 @@ import landlogo from "../assets/landlogo.svg";
 export default function Landingpage() {
   return (
     <div className="flex min-w-full min-h-full">
-      <div className="md:w-2/5 w-full min-h-screen bg-[url(/images/landingbg.jpg)] bg-no-repeat bg-cover">
+      <div className="md:w-2/5 w-full min-h-screen bg-[url(/images/signbg.webp)] bg-no-repeat bg-cover">
         <div className="px-12 py-6">
           <Logo size="4xl" />
         </div>
