@@ -125,7 +125,9 @@ function Navbar({
               </Tooltip>
             </div>
             <div className="max-w-sm text-white text-center md:text-start">
-              {user.bio}
+              {user.bio
+                ? user.bio
+                : "Tell us more about you using profile page"}
             </div>
           </div>
           <div className="hidden lg:block max-w-sm transform">

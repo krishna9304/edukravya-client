@@ -20,6 +20,11 @@ import AuthProtectedPage from "./components/authprotectedpage";
 import Profile from "./pages/profile";
 import { connect } from "socket.io-client";
 import { serverURL } from "./constants";
+import Home from "./components/home";
+import Batches from "./components/batches";
+import LearningTree from "./components/learningtree";
+import Books from "./components/books";
+import Tests from "./components/tests";
 
 function App() {
   const [{ jwt }, setCookie, removeCookie] = useCookies<
@@ -54,7 +59,7 @@ function App() {
       setIsLoading(false);
     }
     return () => {};
-  }, [jwt]);
+  }, []);
 
   return (
     <BrowserRouter>

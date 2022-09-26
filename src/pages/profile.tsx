@@ -7,6 +7,7 @@ import BatchCard, { BatchData } from "../components/batchcard";
 import Page from "../components/page";
 import { User } from "../redux/slices/user";
 import { RootState } from "../redux/store";
+import thumbnail from "../assets/demobatch.svg";
 
 function Profile() {
   const { id } = useParams();
@@ -19,27 +20,27 @@ function Profile() {
   const [myBatches, setMyBatches] = useState<BatchData[]>([
     {
       batchId: "1234567890",
-      thumbnail: "/images/edukravya.png",
+      thumbnail: thumbnail,
       title: "Batch Title",
     },
     {
       batchId: "1234567890",
-      thumbnail: "/images/edukravya.png",
+      thumbnail: thumbnail,
       title: "Batch Title",
     },
     {
       batchId: "1234567890",
-      thumbnail: "/images/edukravya.png",
+      thumbnail: thumbnail,
       title: "Batch Title",
     },
     {
       batchId: "1234567890",
-      thumbnail: "/images/edukravya.png",
+      thumbnail: thumbnail,
       title: "Batch Title",
     },
     {
       batchId: "1234567890",
-      thumbnail: "/images/edukravya.png",
+      thumbnail: thumbnail,
       title: "Batch Title",
     },
   ]);

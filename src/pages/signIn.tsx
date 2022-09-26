@@ -1,19 +1,19 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Button, IconButton, Input, InputAdornment } from "@mui/material";
-import { useState } from "react";
+import { Dispatch, useState } from "react";
 import { Link } from "react-router-dom";
 import server from "../axios";
 import Logo from "../components/logo";
-import { setUser } from "../redux/slices/user";
+import { setUser, User } from "../redux/slices/user";
 import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
-import { AxiosError } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { getServerErrors } from "../helpers/servererrors";
-import validator from "validator";
+import { AnyAction } from "@reduxjs/toolkit";
 
 interface SignInData {
-  email: string | null;
+  userId: string | null;
   password: string | null;
 }
 
@@ -21,9 +21,6 @@ const getErrors: (signInData: SignInData) => string[] = (
   signInData: SignInData
 ): string[] => {
   const errs: string[] = [];
-  if (signInData.email != null && !validator.isEmail(signInData.email + "")) {
-    errs.push("Invalid Email");
-  }
   if (signInData.password != null && signInData.password.trim().length < 8) {
     errs.push("Invalid Password");
   }
@@ -32,16 +29,16 @@ const getErrors: (signInData: SignInData) => string[] = (
 
 export default function SignIn() {
   const [signInData, setSignInData] = useState<SignInData>({
-    email: null,
+    userId: null,
     password: null,
   });
 
-  const dispatch = useDispatch();
+  const dispatch: Dispatch<AnyAction> = useDispatch();
   const [, setCookie] = useCookies(["jwt"]);
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  const handleSignIn = () => {
+  const handleSignIn: () => void = (): void => {
     if (
       !getErrors(signInData).length &&
       !Object.values(signInData).includes(null) &&
@@ -49,24 +46,22 @@ export default function SignIn() {
     ) {
       server
         .post("/api/user/login", {
-          email: signInData.email,
+          userId: signInData.userId,
           password: signInData.password,
         })
-        .then(({ data }) => {
-          dispatch(setUser(data.user));
-          setCookie("jwt", data.token);
-          console.log(data);
-        })
-        .catch((err: AxiosError<any>) => {
-          getServerErrors(err).forEach((err: string) => {
-            toast.error(err);
-          });
-        });
+        .then(
+          ({ data }: AxiosResponse<{ user: User; token: string }>): void => {
+            dispatch(setUser(data.user));
+            setCookie("jwt", data.token);
+            console.log(data);
+          }
+        )
+        .catch((err: AxiosError<any>): void =>
+          getServerErrors(err).forEach((err: string) => toast.error(err))
+        );
     }
     if (getErrors(signInData).length) {
-      getErrors(signInData).forEach((err: string) => {
-        toast.error(err);
-      });
+      getErrors(signInData).forEach((err: string) => toast.error(err));
     }
     if (Object.values(signInData).includes(null)) {
       Object.keys(signInData).forEach((key: string): void => {
@@ -100,13 +95,12 @@ export default function SignIn() {
               onChange={(e) => {
                 setSignInData((prevData: SignInData) => ({
                   ...prevData,
-                  email: e.target.value,
+                  userId: e.target.value,
                 }));
               }}
-              type="email"
               size="small"
               className="p-2 w-full text-gray-500 bg-white rounded-sm "
-              placeholder="email"
+              placeholder="Username"
             />
             <Input
               onChange={(e) => {
