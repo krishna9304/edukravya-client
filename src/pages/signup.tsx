@@ -27,6 +27,7 @@ interface SignUpData {
   email: string | null;
   phone: string | null;
   password: string | null;
+  userId: string;
   userType: "student" | "educator";
 }
 
@@ -53,6 +54,7 @@ export default function SignUp() {
   const [signUpData, setSignUpData] = useState<SignUpData>({
     name: null,
     email: null,
+    userId: "1234567890",
     phone: null,
     password: null,
     userType: "student",
@@ -74,6 +76,7 @@ export default function SignUp() {
           email: signUpData.email,
           password: signUpData.password,
           phone: signUpData.phone,
+          userId: signUpData.userId,
         })
         .then(({ data }) => {
           dispatch(setUser(data.user));
