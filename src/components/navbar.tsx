@@ -40,7 +40,7 @@ function Navbar({
     <>
       <nav className="fixed h-20 z-10 top-0 left-0 w-full bg-primary-700 bg-opacity-90 backdrop-blur-sm px-2 pt-4 pb-2 items-center justify-between flex">
         <div className="flex gap-4 items-center justify-center">
-          {user._id && <Hamburger _id={user._id} />}
+          {user.userId && <Hamburger _id={user.userId} />}
           <Logo />
         </div>
         <div className="hidden sm:flex md:w-full md:justify-center items-center">
@@ -58,7 +58,7 @@ function Navbar({
             className="w-60 hidden sm:block md:w-96n-w-s/3 bg-white"
           />
         </div>
-        {user._id && (
+        {user.userId && (
           <div className="flex justify-center items-center">
             {!extended && (
               <Tooltip title="PROFILE">
@@ -112,7 +112,7 @@ function Navbar({
                 <IconButton
                   onClick={() => {
                     navigator.clipboard.writeText(
-                      `${location.origin}/user/${user._id}`
+                      `${location.origin}/user/${user.userId}`
                     );
                   }}
                   size="medium"

@@ -16,10 +16,10 @@ function AuthProtectedPage({
   );
   return isLoading ? (
     <LoaderPage />
-  ) : user._id ? (
+  ) : user.userId ? (
     children
   ) : (
-    <NavigateTo path="/signup" />
+    <NavigateTo path="/" />
   );
 }
 

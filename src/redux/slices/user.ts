@@ -6,6 +6,7 @@ export interface User {
   name?: string;
   email?: string;
   phone?: string;
+  userId?: string;
   bio?: string;
   userType?: "student" | "educator";
   avatar?: string;
@@ -18,6 +19,7 @@ const initialUser: User = {
   name: undefined,
   email: undefined,
   phone: undefined,
+  userId: undefined,
   bio: undefined,
   userType: undefined,
   avatar: undefined,

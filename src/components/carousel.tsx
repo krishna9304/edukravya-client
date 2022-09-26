@@ -1,41 +1,42 @@
 import CarouselCard, { CarouselCardData } from "./carouselcard";
+import batchThumbnail from "../assets/boxes.svg";
 
 const data: CarouselCardData[] = [
   {
-    src: "https://images.unsplash.com/photo-1502657877623-f66bf489d236",
+    src: batchThumbnail,
     title: "Night view",
     description: "4.21M views",
-    to:"/dashboard/home",
+    to: "/dashboard/home",
   },
-  // {
-  //   src: "https://www.jeebytes.xyz/wp-content/uploads/2022/08/PW-Prayas-2.0-For-JEE-Main-Advanced-2023.jpg",
-  //   title: "Prayas 2.0",
-  //   description: "India's most powerful batch for IIT JEE 2023.",
-  //   to:"/dashboard/home",
-  // },
   {
-    src: "https://images.unsplash.com/photo-1527549993586-dff825b37782",
+    src: batchThumbnail,
+    title: "Prayas 2.0",
+    description: "India's most powerful batch for IIT JEE 2023.",
+    to: "/dashboard/home",
+  },
+  {
+    src: batchThumbnail,
     title: "Lake view",
     description: "4.74M views",
-    to:"/dashboard/home",
+    to: "/dashboard/home",
   },
   {
-    src: "https://images.unsplash.com/photo-1532614338840-ab30cf10ed36",
+    src: batchThumbnail,
     title: "Mountain view",
     description: "3.98M views",
-    to:"/dashboard/home",
+    to: "/dashboard/home",
   },
   {
-    src: "https://images.unsplash.com/photo-1532614338840-ab30cf10ed36",
+    src: batchThumbnail,
     title: "Mountain view1",
     description: "3.98M views",
-    to:"/dashboard/home",
+    to: "/dashboard/home",
   },
   {
-    src: "https://images.unsplash.com/photo-1532614338840-ab30cf10ed36",
+    src: batchThumbnail,
     title: "Mountain view2",
     description: "3.98M views",
-    to:"/dashboard/home",
+    to: "/dashboard/home",
   },
 ];
 

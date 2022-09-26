@@ -46,7 +46,7 @@ function Profile() {
   ]);
 
   useEffect(() => {
-    if (id == user._id) {
+    if (id == user.userId) {
       setProfileData(user);
     } else {
       // fetch profile data from server
