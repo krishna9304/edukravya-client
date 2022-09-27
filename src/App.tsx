@@ -20,6 +20,7 @@ import AuthProtectedPage from "./components/authprotectedpage";
 import Profile from "./pages/profile";
 import { connect } from "socket.io-client";
 import { serverURL } from "./constants";
+import DevPage from "./pages/dev";
 
 function App() {
   const [{ jwt }, setCookie, removeCookie] = useCookies<
@@ -111,6 +112,7 @@ function App() {
         />
         {/* allowed to all */}
         <Route path="/" element={<Landingpage />} />
+        <Route path="/dev" element={<DevPage />} />
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
