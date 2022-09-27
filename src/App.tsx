@@ -70,7 +70,7 @@ function App() {
           element={
             isLoading ? (
               <LoaderPage />
-            ) : user._id ? (
+            ) : user.userI ? (
               <NavigateTo path="/dashboard/home" />
             ) : (
               <SignUp />
@@ -82,7 +82,7 @@ function App() {
           element={
             isLoading ? (
               <LoaderPage />
-            ) : user._id ? (
+            ) : user.userI ? (
               <NavigateTo path="/dashboard/home" />
             ) : (
               <SignIn />
