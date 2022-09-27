@@ -39,6 +39,11 @@ export default function Landingpage() {
                 SIGN IN
               </Button>
             </Link>
+            <Link to="/dev">
+              <Button color="primary" variant="outlined">
+                See the work
+              </Button>
+            </Link>
           </div>
         </div>
         <img
