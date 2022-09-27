@@ -3,7 +3,7 @@ import Page from "../components/page";
 
 function LoaderPage() {
   return (
-    <Page className="w-screen flex justify-center items-center bg-secondary-100">
+    <Page className="w-screen flex justify-center items-center bg-white">
       <Loader />
     </Page>
   );

@@ -3,7 +3,8 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface User {
   _id?: string;
-  name?: string;
+  name?: string; 
+  userId?:string;
   email?: string;
   phone?: string;
   bio?: string;
@@ -16,6 +17,7 @@ export interface User {
 const initialUser: User = {
   _id: undefined,
   name: undefined,
+  userId:undefined,
   email: undefined,
   phone: undefined,
   bio: undefined,

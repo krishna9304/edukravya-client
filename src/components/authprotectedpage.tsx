@@ -16,7 +16,7 @@ function AuthProtectedPage({
   );
   return isLoading ? (
     <LoaderPage />
-  ) : user._id ? (
+  ) : user.userI ? (
     children
   ) : (
     <NavigateTo path="/signup" />
