@@ -12,12 +12,14 @@ const VideoPlayer = ({ stream }: { stream: MediaStream }) => {
 
   return (
     <video
-      id="vdo"
+      muted
       ref={ref}
-      className="aspect-video w-full"
+      className="w-full aspect-video bg-black"
       autoPlay
       controls
-    />
+    >
+      <div className="w-20 h-2 bg-black">Hiii</div>
+    </video>
   );
 };
 

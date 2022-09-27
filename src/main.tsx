@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
@@ -9,9 +8,10 @@ import { store } from "./redux/store";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CookiesProvider } from "react-cookie";
+import { StrictMode } from "react";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
+  <StrictMode>
     <Provider store={store}>
       <CookiesProvider>
         <ThemeProvider theme={MuiTheme}>
@@ -20,5 +20,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <ToastContainer theme="dark" position="bottom-right" />
       </CookiesProvider>
     </Provider>
-  </React.StrictMode>
+  </StrictMode>
 );

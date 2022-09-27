@@ -30,7 +30,7 @@ const initialUser: User = {
 export const userSlice: Slice<
   User,
   SliceCaseReducers<User>,
-  string
+  "user"
 > = createSlice({
   name: "user",
   initialState: initialUser,

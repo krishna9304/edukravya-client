@@ -17,35 +17,8 @@ function Profile() {
   );
 
   const [profileData, setProfileData] = useState<null | User>(null);
-  const [myBatches, setMyBatches] = useState<BatchData[]>([
-    {
-      batchId: "1234567890",
-      thumbnail: thumbnail,
-      title: "Batch Title",
-    },
-    {
-      batchId: "1234567890",
-      thumbnail: thumbnail,
-      title: "Batch Title",
-    },
-    {
-      batchId: "1234567890",
-      thumbnail: thumbnail,
-      title: "Batch Title",
-    },
-    {
-      batchId: "1234567890",
-      thumbnail: thumbnail,
-      title: "Batch Title",
-    },
-    {
-      batchId: "1234567890",
-      thumbnail: thumbnail,
-      title: "Batch Title",
-    },
-  ]);
 
-  useEffect(() => {
+  useEffect((): (() => void) => {
     if (id == user.userId) {
       setProfileData(user);
     } else {
@@ -56,9 +29,9 @@ function Profile() {
 
   return (
     <Page>
-      <div className="flex justify-center p-20 bg-pink-50 grow">
-        <div className="w-full grow shadow-2xl rounded-xl bg-black flex">
-          <div className="w-1/2 grow h-full flex justify-center items-center flex-col  p-10 rounded-l-xl border-r bg-white border-r-black">
+      <div className="flex justify-center sm:p-20 bg-pink-50 grow">
+        <div className="w-full max-w-3xl grow shadow-2xl rounded-xl flex flex-col sm:flex-row">
+          <div className="sm:w-1/2 grow h-full flex justify-center items-center flex-col  p-10 rounded-l-xl border-r bg-white border-r-black">
             <span className="ring-8 w-40 hover:ring-4 rounded-full duration-300">
               <Avatar
                 src={profileData?.avatar}
@@ -77,9 +50,9 @@ function Profile() {
               <div className="text-lg">Bio{profileData?.bio}</div>
             </div>
           </div>
-        </div>
-        <div className="w-1/2 h-full flex justify-center items-center flex-col p-10 rounded-r-xl bg-gray-200">
-          div
+          <div className="sm:w-1/2 h-full flex justify-center items-center flex-col p-10 rounded-r-xl bg-gray-200">
+            div
+          </div>
         </div>
       </div>
     </Page>

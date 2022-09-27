@@ -18,9 +18,11 @@ import LoaderPage from "./pages/loaderpage";
 import Documents from "./pages/documents";
 import AuthProtectedPage from "./components/authprotectedpage";
 import Profile from "./pages/profile";
-import { connect } from "socket.io-client";
+import { connect, Socket } from "socket.io-client";
 import { serverURL } from "./constants";
 import DevPage from "./pages/dev";
+import { setSocket } from "./redux/slices/socket";
+import LiveLecture from "./pages/livelecture";
 
 function App() {
   const [{ jwt }, setCookie, removeCookie] = useCookies<
@@ -33,6 +35,10 @@ function App() {
   const user: User = useSelector<RootState, User>(
     (state: RootState): User => state.user
   );
+  const socket: Socket = useSelector<RootState, Socket>(
+    (state: RootState): Socket => state.socket
+  );
+
   const dispatch: Dispatch<AnyAction> = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -41,12 +47,17 @@ function App() {
       server.defaults.headers.common["x-access-token"] = jwt;
       server
         .get("/api/user/self")
-        .then(({ data: userData }: AxiosResponse<User>): void => {
-          dispatch(setUser(userData));
-          const socket = connect(serverURL);
-          // setCookie("jwt",userData.token);
-          setIsLoading(false);
-        })
+        .then(
+          ({
+            data: userData,
+          }: AxiosResponse<User & { token: string }>): void => {
+            dispatch(setUser(userData));
+            const ws = connect(serverURL);
+            dispatch(setSocket(ws));
+            setCookie("jwt", userData.token);
+            setIsLoading(false);
+          }
+        )
         .catch((): void => {
           // removeCookie("jwt");
           setIsLoading(false);
@@ -113,6 +124,7 @@ function App() {
         {/* allowed to all */}
         <Route path="/" element={<Landingpage />} />
         <Route path="/dev" element={<DevPage />} />
+        <Route path="/live/:videoId" element={<LiveLecture />} />
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>

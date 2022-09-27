@@ -1,44 +1,68 @@
 import { Button, Input } from "@mui/material";
-import Peer from "peerjs";
-import React, { RefObject, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import Peer, { DataConnection, MediaConnection } from "peerjs";
+import { ChangeEvent, useEffect, useState } from "react";
 import VideoPlayer from "../components/videoplayer";
-import { v4 as uuid } from "uuid";
 
 function DevPage() {
-  const [peer, setPeer] = useState<Peer>();
   const [myStream, setMyStream] = useState<MediaStream>();
   const [hisStream, setHisStream] = useState<MediaStream>();
   const [fId, setFId] = useState<string>();
-
   const [myPeer, setMyPeer] = useState<Peer>();
 
-  useEffect(() => {}, []);
-  useEffect(() => {
-    const peer = new Peer(uuid());
+  const getStream: (user?: boolean) => Promise<MediaStream> = (
+    user = true
+  ): Promise<MediaStream> => {
+    if (user)
+      return navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true,
+      });
+    return navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+  };
+
+  useEffect((): (() => void) => {
+    console.log("first");
+
+    const peer = new Peer();
     setMyPeer(peer);
 
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((stream: MediaStream) => {
+    getStream()
+      .then((stream: MediaStream): void => {
         setMyStream(stream);
+        peer.on("connection", (conn: DataConnection): void => {
+          console.log("conn request to me", conn);
+          conn.on("data", (data: unknown): void => {});
+        });
+        peer.on("call", (call: MediaConnection): void => {
+          call.answer();
+          call.on("stream", (stream: MediaStream): void => {
+            console.log("got stream");
+            setHisStream(stream);
+          });
+          call.on("error", console.error);
+          call.on("close", (): void => console.log("call closed"));
+        });
       })
       .catch(console.error);
-
-    return () => {};
+    return (): void => {};
   }, []);
 
-  useEffect(() => {
-    if (fId && myPeer && myStream) {
-      myPeer.connect(fId + "");
-      myPeer.on("connection", (conn) => {
-        console.log("done");
+  const call: () => void = (): void => {
+    if (myPeer && myStream && fId) {
+      const conn: DataConnection = myPeer.connect(fId);
+      conn.on("open", (): void => {
+        conn.send("hi");
+        console.log("calling", fId);
+        const call: MediaConnection = myPeer.call(fId, myStream);
+        call.on("stream", (stream: MediaStream): void => {
+          console.log("got stream");
+          setHisStream(stream);
+        });
+        call.on("error", console.error);
+        call.on("close", (): void => console.log("call closed"));
       });
-      myPeer.on("open", () => {});
     }
-
-    return () => {};
-  }, [fId]);
+  };
 
   return (
     <div>
@@ -47,28 +71,13 @@ function DevPage() {
       {myPeer && myPeer.open + ""}
       <br />
       <Input
-        onChange={(e) => {
+        onChange={(e: ChangeEvent<HTMLTextAreaElement>): void => {
           setFId(e.target.value);
         }}
       />
       <Button
-        onClick={() => {
-          if (myPeer && myStream && fId) {
-            const call = myPeer.call(fId, myStream);
-            console.log("calling");
-            call.on("stream", (stream) => {
-              setHisStream(stream);
-              console.log("got stream");
-            });
-            myPeer.on("call", (call) => {
-              call.answer(myStream);
-              call.on("stream", (stream) => {
-                setHisStream(stream);
-                console.log("got stream");
-              });
-              console.log("answering");
-            });
-          }
+        onClick={(): void => {
+          call();
         }}
       >
         call
