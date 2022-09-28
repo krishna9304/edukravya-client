@@ -29,7 +29,7 @@ function Loader() {
     config: config.gentle,
   });
   return (
-    <div className="rounded-full w-40 bg-gradient-to-r from-primary-700 to-secondary-300 border-4 border-white py-2 px-4">
+    <div className="rounded-full w-40 bg-gradient-to-r from-primary-700 to-secondary-300  py-2 px-4">
       <animated.div
         className="rounded-full bg-white"
         style={props}

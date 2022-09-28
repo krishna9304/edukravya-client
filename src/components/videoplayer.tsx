@@ -1,9 +1,14 @@
-import { RefObject, useEffect, useRef } from "react";
+import { FC, RefObject, useEffect, useRef } from "react";
 
-const VideoPlayer = ({ stream }: { stream: MediaStream }) => {
+interface VideoProps {
+  stream?: MediaStream;
+  src?: string;
+}
+
+const VideoPlayer: FC<VideoProps> = ({ stream, src }: VideoProps) => {
   const ref: RefObject<HTMLVideoElement> = useRef<HTMLVideoElement>(null);
   useEffect(() => {
-    if (ref.current) {
+    if (ref.current && stream) {
       ref.current.srcObject = stream;
     }
 
@@ -14,12 +19,11 @@ const VideoPlayer = ({ stream }: { stream: MediaStream }) => {
     <video
       muted
       ref={ref}
-      className="w-full aspect-video bg-black"
+      src={src}
+      className="w-full aspect-video bg-secondary-500 rounded-md"
       autoPlay
       controls
-    >
-      <div className="w-20 h-2 bg-black">Hiii</div>
-    </video>
+    />
   );
 };
 

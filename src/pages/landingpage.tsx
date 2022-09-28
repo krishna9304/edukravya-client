@@ -3,8 +3,15 @@ import Logo from "../components/logo";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import landlogo from "../assets/landlogo.svg";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import { User } from "../redux/slices/user";
 
 export default function Landingpage() {
+  const user: User = useSelector<RootState, User>(
+    (state: RootState): User => state.user
+  );
+
   return (
     <div className="flex min-w-full min-h-full bg-secondary-100">
       <div className="md:w-2/5 w-full min-h-screen bg-[url(/images/signbg.jpg) bg-primary-700 bg-no-repeat bg-cover">
@@ -30,7 +37,7 @@ export default function Landingpage() {
               EXPLORE MORE ABOUT EDUKRAVYA BY SIGNING IN.
             </div>
           </div>
-          <div className="flex gap-4">
+          <div className={`${!user.userId && "hidden"} flex gap-4`}>
             <Link to="/signup">
               <Button variant="contained">SIGN UP</Button>
             </Link>

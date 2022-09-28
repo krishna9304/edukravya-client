@@ -26,7 +26,7 @@ function DevPage() {
     const peer = new Peer();
     setMyPeer(peer);
 
-    getStream()
+    getStream(false)
       .then((stream: MediaStream): void => {
         setMyStream(stream);
         peer.on("connection", (conn: DataConnection): void => {

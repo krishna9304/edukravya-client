@@ -17,9 +17,9 @@ export interface User {
 const initialUser: User = {
   _id: undefined,
   name: undefined,
+  userId: undefined,
   email: undefined,
   phone: undefined,
-  userId: undefined,
   bio: undefined,
   userType: undefined,
   avatar: undefined,
