@@ -3,10 +3,10 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface User {
   _id?: string;
-  name?: string; 
-  userId?:string;
+  name?: string;
   email?: string;
   phone?: string;
+  userId?: string;
   bio?: string;
   userType?: "student" | "educator";
   avatar?: string;
@@ -17,7 +17,7 @@ export interface User {
 const initialUser: User = {
   _id: undefined,
   name: undefined,
-  userId:undefined,
+  userId: undefined,
   email: undefined,
   phone: undefined,
   bio: undefined,
@@ -30,7 +30,7 @@ const initialUser: User = {
 export const userSlice: Slice<
   User,
   SliceCaseReducers<User>,
-  string
+  "user"
 > = createSlice({
   name: "user",
   initialState: initialUser,

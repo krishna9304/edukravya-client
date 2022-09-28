@@ -126,8 +126,8 @@ function Tests() {
         </div>
       </div>
       {/* sep */}
-      <div className="pb-16 flex 2xl:w-3/4 flex-col gap-2">
-        <div className="text-2xl font-bold px-10 pt-6 flex justify-between">
+      <div className="pb-16 flex 2xl:w-3/5 flex-col gap-2">
+        <div className="text-2xl font-bold pt-6 flex justify-between">
           TESTS
         </div>
         <div className="px-5 sm:px-10 py-4 flex flex-col gap-3">

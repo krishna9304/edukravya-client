@@ -14,6 +14,7 @@ function Profile() {
     (state: RootState): User => state.user
   );
   const [profileData, setProfileData] = useState<null | User>(null);
+
   useEffect((): (() => void) => {
     if (id == user.userId) {
       setProfileData(user);
@@ -24,9 +25,9 @@ function Profile() {
   }, []);
   return (
     <Page>
-      <div className="flex justify-center sm:p-20 bg-pink-50 grow">
+      <div className="flex justify-center sm:px-20 sm:py-10 bg-pink-50 grow">
         <div className="w-full max-w-3xl grow shadow-2xl rounded-xl flex flex-col sm:flex-row">
-          <div className="sm:w-1/2 grow h-full flex justify-center items-center flex-col  p-10 rounded-l-xl border-r bg-white border-r-black">
+          <div className="sm:w-1/2 grow h-full flex justify-center items-center flex-col p-10 rounded-l-xl border-r bg-white border-r-black">
             <span className="ring-8 w-40 hover:ring-4 rounded-full duration-300">
               <Avatar
                 src={profileData?.avatar}
@@ -94,12 +95,12 @@ function Profile() {
                   000
                 </div>
               </div>
-              <div className="bg-white py-1 gap-1">
+              {/* <div className="bg-white py-1 gap-1">
                 <div className="text-lg font-semibold">Top Results</div>
                 <div className="flex flex-col grow items-left max-w-full bg-gray-200 p-4 rounded-lg text-left">
                   000
                 </div>
-              </div>
+              </div> */}
               <div className="flex justify-end">
                 <Button variant="contained">SHARE</Button>
               </div>
