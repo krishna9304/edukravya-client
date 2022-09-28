@@ -17,13 +17,13 @@ import validator from "validator";
 import server from "../axios";
 import Logo from "../components/logo";
 import { useDispatch } from "react-redux";
-import { setUser } from "../redux/slices/user";
+import { setUser, User } from "../redux/slices/user";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { getServerErrors } from "../helpers/servererrors";
 import { AnyAction } from "@reduxjs/toolkit";
 
-interface SignUpData {
+export interface SignUpData {
   name: string | null;
   email: string | null;
   phone: string | null;
@@ -47,6 +47,12 @@ const getErrors: (signUpData: SignUpData) => string[] = (
   }
   if (signUpData.password != null && signUpData.password.trim().length < 8) {
     errs.push("Invalid Password");
+  }
+  if (signUpData.userId != null && !signUpData.userId) {
+    errs.push("Invalid Username");
+  }
+  if (signUpData.name != null && !signUpData.name) {
+    errs.push("Invalid Name");
   }
   return errs;
 };
@@ -79,11 +85,15 @@ export default function SignUp() {
           phone: signUpData.phone,
           userId: signUpData.userId,
         })
-        .then(({ data }) => {
-          dispatch(setUser(data.user));
-          setCookie("jwt", data.token);
-          console.log(data);
-        })
+        .then(
+          ({
+            data: { user, token },
+          }: AxiosResponse<{ user: User; token: string }>) => {
+            dispatch(setUser(user));
+            setCookie("jwt", token);
+            console.log(user);
+          }
+        )
         .catch((err: AxiosError<any>) => {
           getServerErrors(err).forEach((err: string) => {
             toast.error(err);

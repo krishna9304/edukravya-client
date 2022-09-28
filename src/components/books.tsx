@@ -88,7 +88,12 @@ function Books() {
           </div>
         </div>
       </div>
-      <Modal onClose={() => setActiveBook(null)} open={Boolean(activeBook)}>
+      <Modal
+        onClose={() => {
+          setActiveBook(null);
+        }}
+        open={Boolean(activeBook)}
+      >
         <div className="lg:w-3/5 lg:h-3/4 w-5/6 h-5/6 top-[8vh] left-[8vw] lg:top-[calc(16.6vh)] lg:left-[20vw]  flex justify-between p-2 absolute bg-white rounded-lg">
           <div className="w-full pl-10 flex flex-col gap-5 lg:justify-around items-center">
             <div>

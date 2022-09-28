@@ -37,21 +37,27 @@ export default function Landingpage() {
               EXPLORE MORE ABOUT EDUKRAVYA BY SIGNING IN.
             </div>
           </div>
-          <div className={`${!user.userId && "hidden"} flex gap-4`}>
-            <Link to="/signup">
-              <Button variant="contained">SIGN UP</Button>
+          {user.userId ? (
+            <Link to="/dashboard/home">
+              <Button variant="contained">Dashboard</Button>
             </Link>
-            <Link to="/signin">
-              <Button color="primary" variant="outlined">
-                SIGN IN
-              </Button>
-            </Link>
-            <Link to="/dev">
-              <Button color="primary" variant="outlined">
-                See the work
-              </Button>
-            </Link>
-          </div>
+          ) : (
+            <div className={`flex gap-4`}>
+              <Link to="/signup">
+                <Button variant="contained">SIGN UP</Button>
+              </Link>
+              <Link to="/signin">
+                <Button color="primary" variant="outlined">
+                  SIGN IN
+                </Button>
+              </Link>
+              <Link to="/dev">
+                <Button color="primary" variant="outlined">
+                  See the work
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
         <img
           src={landlogo}
