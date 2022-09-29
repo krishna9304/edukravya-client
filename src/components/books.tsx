@@ -69,7 +69,10 @@ function Books() {
     },
   ]);
   return (
-    <div className="w-full flex grow">
+    <div className="w-full flex flex-col grow">
+      <div className=" text-secondary-700 text-2xl font-bold px-10 pt-6 flex justify-between">
+        BOOKS
+      </div>
       <div className="px-5 sm:px-10 w-screen py-4 flex flex-col gap-3">
         <div className="font-bold text-xl">My Books </div>
         <div className="p-4 rounded-3xl bg-gradient-to-r from-primary-200 via-secondary-200 to-primary-200">

@@ -23,6 +23,7 @@ import { serverURL } from "./constants";
 import DevPage from "./pages/dev";
 import { setSocket } from "./redux/slices/socket";
 import LiveLecture from "./pages/livelecture";
+import Batchpage from "./pages/batchpage";
 
 function App() {
   const [{ jwt }, setCookie, removeCookie] = useCookies<
@@ -123,6 +124,7 @@ function App() {
         />
         {/* allowed to all */}
         <Route path="/" element={<Landingpage />} />
+        <Route path="/batch/:batchId" element={<Batchpage />} />
         <Route path="/dev" element={<DevPage />} />
         <Route path="/live/:videoId" element={<LiveLecture />} />
         <Route path="/*" element={<PageNotFound />} />
