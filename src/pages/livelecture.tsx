@@ -116,7 +116,7 @@ function LiveLecture() {
             } h-2/5 sm:h-1/4 lg:h-[calc(100%-5rem)] w-full lg:min-w-[20rem]`}
           >
             <div className="py-2 px-4 bg-primary-400 text-white shadow-lg rounded-t-lg uppercase font-semibold select-none">
-              chats
+              live chats
             </div>
             <div className="flex px-4 h-full overflow-auto flex-col bg-primary-400">
               <div className="flex flex-col gap-2 py-2 py-3overflow-auto">
