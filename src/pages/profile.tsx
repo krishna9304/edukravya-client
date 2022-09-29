@@ -83,9 +83,7 @@ function Profile() {
   const [, setCookie] = useCookies<"jwt", { jwt: string }>(["jwt"]);
 
   const [updatedProfileData, setUpdatedProfileData] =
-    useState<UpdatedProfileData | null>({
-      ...profileData,
-    });
+    useState<UpdatedProfileData | null>(null);
 
   const [isUpdatedPswdVisible, setIsUpdatedPswdVisible] =
     useState<boolean>(false);
@@ -101,21 +99,36 @@ function Profile() {
     ) {
       server
         .put("/api/user/update", {
-          name: updatedProfileData?.name,
-          email: updatedProfileData?.email,
-          password: updatedProfileData?.password,
-          phone: updatedProfileData?.phone,
-          userId: updatedProfileData?.userId,
+          name:
+            updatedProfileData?.name != profileData?.name
+              ? updatedProfileData?.name
+              : null,
+          email:
+            updatedProfileData?.email != profileData?.email
+              ? updatedProfileData?.email
+              : null,
+          password:
+            updatedProfileData?.password != ""
+              ? updatedProfileData?.password
+              : null,
+          phone:
+            updatedProfileData?.phone != profileData?.phone
+              ? updatedProfileData?.phone
+              : null,
+          userId:
+            updatedProfileData?.userId != profileData?.userId
+              ? updatedProfileData?.userId
+              : null,
         })
-        .then(
-          ({
-            data: { user, token },
-          }: AxiosResponse<{ user: User; token: string }>) => {
-            dispatch(setUser(user));
-            setCookie("jwt", token);
-            console.log(user);
-          }
-        )
+        .then(({ data }: AxiosResponse<{ user: User; token: string }>) => {
+          dispatch(
+            setUser({
+              ...user,
+              ...updatedProfileData,
+            })
+          );
+          toast.success("User updated");
+        })
         .catch((err: AxiosError<any>) => {
           getServerErrors(err).forEach((err: string) => {
             toast.error(err);
@@ -154,35 +167,30 @@ function Profile() {
             <div className="flex flex-col w-full px-3 py-2 gap-1 grow justify-around">
               <div className="flex flex-col gap-1 font-semibold text-lg">
                 <div className="text-gray-500 text-lg font-semibold">Name:</div>
-                {/* <div>This is demo text</div> */}
                 <div>{profileData?.name}</div>
               </div>
               <div className="flex flex-col gap-1 font-semibold text-lg">
                 <div className="text-gray-500 text-lg font-semibold">
                   Username:
                 </div>
-                {/* <div>This is demo text</div> */}
                 <div>{profileData?.userId}</div>
               </div>
               <div className="flex flex-col gap-1 font-semibold text-lg">
                 <div className="text-gray-500 text-lg font-semibold">
                   Phone:
                 </div>
-                {/* <div>This is demo text</div> */}
                 <div>{profileData?.phone}</div>
               </div>
               <div className="flex flex-col gap-1 font-semibold text-lg">
                 <div className="text-gray-500 text-lg font-semibold">
                   Email:
                 </div>
-                {/* <div>This is demo text</div> */}
                 <div>{profileData?.email}</div>
               </div>
               <div className="flex flex-col gap-1 font-semibold text-lg">
                 <div className="text-gray-500 text-lg font-semibold">
                   About Me:
                 </div>
-                {/* <div>This is demo text</div> */}
                 <div>{profileData?.bio}</div>
               </div>
             </div>
@@ -209,17 +217,7 @@ function Profile() {
                   000
                 </div>
               </div>
-              <div className="flex justify-between">
-                <Tooltip placement="bottom" title="Update user info">
-                  <Button
-                    onClick={(): void => {
-                      setIsUpdating(true);
-                    }}
-                    variant="outlined"
-                  >
-                    update
-                  </Button>
-                </Tooltip>
+              <div className="flex flex-row-reverse justify-between">
                 <Tooltip placement="bottom" title="COPY USERNAME">
                   <Button
                     onClick={(): void => {
@@ -238,6 +236,18 @@ function Profile() {
                     Share
                   </Button>
                 </Tooltip>
+                {isMyProfile && (
+                  <Tooltip placement="bottom" title="Update user info">
+                    <Button
+                      onClick={(): void => {
+                        setIsUpdating(true);
+                      }}
+                      variant="outlined"
+                    >
+                      update
+                    </Button>
+                  </Tooltip>
+                )}
               </div>
             </div>
           </div>
@@ -257,7 +267,7 @@ function Profile() {
                 updatedProfileData?.name != null &&
                 updatedProfileData?.name.trim().length < 8
               }
-              defaultValue={updatedProfileData?.name}
+              defaultValue={profileData?.name}
               onChange={(e): void => {
                 setUpdatedProfileData(
                   (
@@ -277,7 +287,7 @@ function Profile() {
                 updatedProfileData?.userId != null &&
                 updatedProfileData?.userId.trim().length < 8
               }
-              defaultValue={updatedProfileData?.userId}
+              defaultValue={profileData?.userId}
               onChange={(e): void => {
                 setUpdatedProfileData(
                   (
@@ -297,7 +307,7 @@ function Profile() {
                 updatedProfileData?.email != null &&
                 !validator.isEmail(updatedProfileData?.email + "")
               }
-              defaultValue={updatedProfileData?.email}
+              defaultValue={profileData?.email}
               onChange={(e) => {
                 setUpdatedProfileData((prevData) => ({
                   ...prevData,
@@ -314,7 +324,7 @@ function Profile() {
                 updatedProfileData?.phone != null &&
                 !validator.isMobilePhone(updatedProfileData?.phone + "")
               }
-              defaultValue={updatedProfileData?.phone}
+              defaultValue={profileData?.phone}
               onChange={(e): void => {
                 setUpdatedProfileData(
                   (

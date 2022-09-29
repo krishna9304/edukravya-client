@@ -126,10 +126,8 @@ function Chatbar() {
               <div className="p-1 bg-green-500 rounded-full" />
             </div>
             <div className="bg-white  h-[60vh] grow overflow-y-auto flex flex-col-reverse p-4 gap-2 rounded-b-md">
-              {[...messages].map((message) => {
-                return (
-                  <Message key={message._id} user={"Yash"} message={message} />
-                );
+              {messages.map((message: MessageData, idx: number) => {
+                return <Message key={idx} user={"Yash"} message={message} />;
               })}
             </div>
           </div>

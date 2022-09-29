@@ -1,6 +1,5 @@
 import {
   CallEndRounded,
-  ChatBubbleRounded,
   ChatRounded,
   FullscreenRounded,
   PanToolRounded,
@@ -8,22 +7,26 @@ import {
   SpeakerNotesOffRounded,
   ViewComfyOutlined,
   ViewComfyRounded,
-  VolumeOffRounded,
 } from "@mui/icons-material";
-import {
-  Avatar,
-  IconButton,
-  Input,
-  InputAdornment,
-  OutlinedInput,
-} from "@mui/material";
-import { useState } from "react";
+import { Avatar, IconButton, Input, InputAdornment } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Logo from "../components/logo";
 import VideoPlayer from "../components/videoplayer";
+import { User } from "../redux/slices/user";
+import { RootState } from "../redux/store";
 
 function LiveLecture() {
   const [isChatOpen, setIsChatOpen] = useState<boolean>(true);
   const [isPresentationView, setIsPresentationView] = useState<boolean>(false);
+
+  const user: User = useSelector<RootState, User>(
+    (state: RootState): User => state.user
+  );
+
+  useEffect((): (() => void) => {
+    return (): void => {};
+  }, []);
 
   return (
     <div className="flex overflow-hidden flex-col w-full h-screen">

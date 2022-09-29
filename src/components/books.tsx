@@ -74,16 +74,24 @@ function Books() {
         <div className="font-bold text-xl">My Books </div>
         <div className="p-4 rounded-3xl bg-gradient-to-r from-primary-200 via-secondary-200 to-primary-200">
           <div className="flex rounded-sm snap-x snap-mandatory overflow-auto gap-4">
-            {myBooks.map((myBook: BookData) => (
-              <BookCard setActiveBook={setActiveBook} bookData={myBook} />
+            {myBooks.map((myBook: BookData, idx: number) => (
+              <BookCard
+                setActiveBook={setActiveBook}
+                key={idx}
+                bookData={myBook}
+              />
             ))}
           </div>
         </div>
         <div className="font-bold text-xl">Backlog 2.0</div>
         <div className="p-4 rounded-3xl bg-gradient-to-r from-primary-200 via-secondary-200 to-primary-200">
           <div className="flex rounded-sm snap-x snap-mandatory overflow-auto gap-4">
-            {myBooks.map((myBook: BookData) => (
-              <BookCard setActiveBook={setActiveBook} bookData={myBook} />
+            {myBooks.map((myBook: BookData, idx: number) => (
+              <BookCard
+                setActiveBook={setActiveBook}
+                key={idx}
+                bookData={myBook}
+              />
             ))}
           </div>
         </div>

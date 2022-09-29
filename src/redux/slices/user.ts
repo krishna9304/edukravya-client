@@ -36,8 +36,19 @@ export const userSlice: Slice<
     setUser: (state: User, action: PayloadAction<User>): User => {
       state = {
         ...state,
-        ...action.payload,
+        ...{
+          name: action.payload?.name,
+          userId: action.payload?.userId,
+          email: action.payload?.email,
+          phone: action.payload?.phone,
+          bio: action.payload?.bio,
+          userType: action.payload?.userType,
+          avatar: action.payload?.avatar,
+          emailVerified: action.payload?.emailVerified,
+          phoneVerified: action.payload?.phoneVerified,
+        },
       };
+      console.log(state);
       return state;
     },
     removeUser: (state: User): User => {

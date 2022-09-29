@@ -123,8 +123,8 @@ function Batches() {
       <div className="px-5 sm:px-10 w-screen py-4 flex flex-col gap-3">
         <div className=" font-bold text-xl">My batches </div>
         <div className="p-4 overflow-auto rounded-3xl bg-slate-300 flex gap-4">
-          {myBatches.map((batch: BatchData) => {
-            return <BatchCard batchData={batch} />;
+          {myBatches.map((batch: BatchData, idx: number) => {
+            return <BatchCard key={idx} batchData={batch} />;
           })}
         </div>
       </div>
@@ -133,32 +133,32 @@ function Batches() {
           Batches you may want to explore !!
         </div>
         <div className="p-4 overflow-auto rounded-3xl bg-slate-300 flex gap-4">
-          {mayLikeBatches.map((batch: BatchData) => {
-            return <BatchCard batchData={batch} />;
+          {mayLikeBatches.map((batch: BatchData, idx: number) => {
+            return <BatchCard batchData={batch} key={idx} />;
           })}
         </div>
       </div>
       <div className="px-5 sm:px-10 w-screen py-4 flex flex-col gap-3">
         <div className="font-bold text-xl">Medical Enterance Batches </div>
         <div className="p-4 overflow-auto rounded-3xl bg-slate-300 flex gap-4">
-          {myBatches.map((batch: BatchData) => {
-            return <BatchCard batchData={batch} />;
+          {myBatches.map((batch: BatchData, idx: number) => {
+            return <BatchCard batchData={batch} key={idx} />;
           })}
         </div>
       </div>
       <div className="px-5 sm:px-10 w-screen py-4 flex flex-col gap-3">
         <div className="font-bold text-xl">Engineering Enterance Batches</div>
         <div className="p-4 overflow-auto rounded-3xl bg-slate-300 flex gap-4">
-          {myBatches.map((batch: BatchData) => {
-            return <BatchCard batchData={batch} />;
+          {myBatches.map((batch: BatchData, idx: number) => {
+            return <BatchCard batchData={batch} key={idx} />;
           })}
         </div>
       </div>
       <div className="px-5 sm:px-10 w-screen py-4 flex flex-col gap-3">
         <div className="font-bold text-xl">Civil Services Exam Batches</div>
         <div className="p-4 overflow-auto rounded-3xl bg-slate-300 flex gap-4">
-          {myBatches.map((batch: BatchData) => {
-            return <BatchCard batchData={batch} />;
+          {myBatches.map((batch: BatchData, idx: number) => {
+            return <BatchCard batchData={batch} key={idx} />;
           })}
         </div>
       </div>

@@ -21,7 +21,7 @@ import Profile from "./pages/profile";
 import { connect, io, Socket } from "socket.io-client";
 import { serverURL } from "./constants";
 import DevPage from "./pages/dev";
-import { setSocket } from "./redux/slices/socket";
+import { removeSocket, setSocket } from "./redux/slices/socket";
 import LiveLecture from "./pages/livelecture";
 
 function App() {
@@ -52,7 +52,7 @@ function App() {
           dispatch(setUser(userData));
           dispatch(setSocket(userData.userId));
           setIsLoading(false);
-          console.log("user");
+          console.log(userData);
         })
         .catch((err: Error): void => {
           console.error(err);
@@ -62,7 +62,9 @@ function App() {
     } else {
       setIsLoading(false);
     }
-    return () => {};
+    return (): void => {
+      dispatch(removeSocket({}));
+    };
   }, []);
 
   return (
@@ -95,6 +97,14 @@ function App() {
         />
         {/* not allowed for unauthenticated users */}
         <Route
+          path="/live/:videoId"
+          element={
+            <AuthProtectedPage isLoading={isLoading}>
+              <LiveLecture />
+            </AuthProtectedPage>
+          }
+        />
+        <Route
           path="/user/:id"
           element={
             <AuthProtectedPage isLoading={isLoading}>
@@ -121,7 +131,6 @@ function App() {
         {/* allowed to all */}
         <Route path="/" element={<Landingpage />} />
         <Route path="/dev" element={<DevPage />} />
-        <Route path="/live/:videoId" element={<LiveLecture />} />
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
