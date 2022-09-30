@@ -9,7 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@chiragrupani/fullscreen-react": "^1.2.5",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.3",
@@ -22,16 +21,12 @@
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.4.0",
-    "react-scrollchor": "^7.0.2",
-    "react-spring": "^9.5.4",
+    "react-spring": "^9.5.5",
     "react-toastify": "^9.0.8",
-    "simple-peer": "^9.11.1",
     "socket.io-client": "^4.5.2",
-    "uuid": "^9.0.0",
     "validator": "^13.7.0"
   },
   "devDependencies": {
-    "@types/": "chiragrupani/fullscreen-react",
     "@types/axios": "^0.14.0",
     "@types/peerjs": "^1.1.0",
     "@types/react": "^18.0.17",

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSpring, animated, config } from "react-spring";
+import { useSpring, animated, config } from "@react-spring/web";
 
 function Loader() {
   const [isToRight, setIsToRight] = useState(false);

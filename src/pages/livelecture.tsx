@@ -23,15 +23,6 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Logo from "../components/logo";
 import VideoPlayer from "../components/videoplayer";
-import {
-  LectureData,
-  shareUser,
-  startLecture,
-  toggelPresentationView,
-  toggleAudio,
-  toggleChat,
-  toggleVideo,
-} from "../redux/slices/liveLecture";
 import { User } from "../redux/slices/user";
 import { RootState } from "../redux/store";
 import { getScreenStream, getUserStream, initPeer } from "../utils/webRTC";
