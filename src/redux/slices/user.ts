@@ -2,7 +2,6 @@ import { createSlice, Slice, SliceCaseReducers } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface User {
-  _id?: string;
   name?: string;
   email?: string;
   phone?: string;
@@ -15,7 +14,6 @@ export interface User {
 }
 
 const initialUser: User = {
-  _id: undefined,
   name: undefined,
   userId: undefined,
   email: undefined,
@@ -38,7 +36,17 @@ export const userSlice: Slice<
     setUser: (state: User, action: PayloadAction<User>): User => {
       state = {
         ...state,
-        ...action.payload,
+        ...{
+          name: action.payload?.name,
+          userId: action.payload?.userId,
+          email: action.payload?.email,
+          phone: action.payload?.phone,
+          bio: action.payload?.bio,
+          userType: action.payload?.userType,
+          avatar: action.payload?.avatar,
+          emailVerified: action.payload?.emailVerified,
+          phoneVerified: action.payload?.phoneVerified,
+        },
       };
       return state;
     },

@@ -1,16 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import socketReducer from "./slices/socket";
+import lectureReducer from "./slices/liveLecture";
 import userReducer from "./slices/user";
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
-    socket: socketReducer,
+    lecture: lectureReducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -18,12 +18,12 @@ import LoaderPage from "./pages/loaderpage";
 import Documents from "./pages/documents";
 import AuthProtectedPage from "./components/authprotectedpage";
 import Profile from "./pages/profile";
-import { connect, Socket } from "socket.io-client";
+import { connect, io, Socket } from "socket.io-client";
 import { serverURL } from "./constants";
 import DevPage from "./pages/dev";
-import { setSocket } from "./redux/slices/socket";
 import LiveLecture from "./pages/livelecture";
 import Batchpage from "./pages/batchpage";
+import socket from "./utils/socket";
 
 function App() {
   const [{ jwt }, setCookie, removeCookie] = useCookies<
@@ -36,9 +36,6 @@ function App() {
   const user: User = useSelector<RootState, User>(
     (state: RootState): User => state.user
   );
-  const socket: Socket = useSelector<RootState, Socket>(
-    (state: RootState): Socket => state.socket
-  );
 
   const dispatch: Dispatch<AnyAction> = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
@@ -48,31 +45,26 @@ function App() {
       server.defaults.headers.common["x-access-token"] = jwt;
       server
         .get("/api/user/self")
-        .then(
-          ({
-            data: userData,
-          }: AxiosResponse<User & { token: string }>): void => {
-            dispatch(setUser(userData));
-            const ws = connect(serverURL);
-            dispatch(setSocket(ws));
-            setCookie("jwt", userData.token);
-            setIsLoading(false);
-          }
-        )
-        .catch((): void => {
-          // removeCookie("jwt");
+        .then(({ data: userData }: AxiosResponse<User>): void => {
+          dispatch(setUser(userData));
+          //
           setIsLoading(false);
+        })
+        .catch((err: Error): void => {
+          console.error(err);
+          setIsLoading(false);
+          // removeCookie("jwt");
         });
     } else {
       setIsLoading(false);
     }
-    return () => {};
+    return (): void => {};
   }, []);
 
   return (
     <BrowserRouter>
       <Routes>
-        {/* NOT Allowed to authenticated users */}
+        {/* Allowed to unauthenticated users only */}
         <Route
           path="/signup"
           element={
@@ -97,7 +89,15 @@ function App() {
             )
           }
         />
-        {/* not allowed for unauthenticated users */}
+        {/* allowed authenticated users */}
+        <Route
+          path="/live/:lectureId"
+          element={
+            <AuthProtectedPage isLoading={isLoading}>
+              <LiveLecture />
+            </AuthProtectedPage>
+          }
+        />
         <Route
           path="/user/:id"
           element={
@@ -126,7 +126,6 @@ function App() {
         <Route path="/" element={<Landingpage />} />
         <Route path="/batch/:batchId" element={<Batchpage />} />
         <Route path="/dev" element={<DevPage />} />
-        <Route path="/live/:videoId" element={<LiveLecture />} />
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>

@@ -50,10 +50,11 @@ export default function SignIn() {
           password: signInData.password,
         })
         .then(
-          ({ data }: AxiosResponse<{ user: User; token: string }>): void => {
-            dispatch(setUser(data.user));
-            setCookie("jwt", data.token);
-            console.log(data);
+          ({
+            data: { user, token },
+          }: AxiosResponse<{ user: User; token: string }>) => {
+            dispatch(setUser(user));
+            setCookie("jwt", token);
           }
         )
         .catch((err: AxiosError<any>): void =>

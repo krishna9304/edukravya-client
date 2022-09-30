@@ -77,21 +77,34 @@ function Books() {
         <div className="font-bold text-xl">My Books </div>
         <div className="p-4 rounded-3xl bg-gradient-to-r from-primary-200 via-secondary-200 to-primary-200">
           <div className="flex rounded-sm snap-x snap-mandatory overflow-auto gap-4">
-            {myBooks.map((myBook: BookData) => (
-              <BookCard setActiveBook={setActiveBook} bookData={myBook} />
+            {myBooks.map((myBook: BookData, idx: number) => (
+              <BookCard
+                setActiveBook={setActiveBook}
+                key={idx}
+                bookData={myBook}
+              />
             ))}
           </div>
         </div>
         <div className="font-bold text-xl">Backlog 2.0</div>
         <div className="p-4 rounded-3xl bg-gradient-to-r from-primary-200 via-secondary-200 to-primary-200">
           <div className="flex rounded-sm snap-x snap-mandatory overflow-auto gap-4">
-            {myBooks.map((myBook: BookData) => (
-              <BookCard setActiveBook={setActiveBook} bookData={myBook} />
+            {myBooks.map((myBook: BookData, idx: number) => (
+              <BookCard
+                setActiveBook={setActiveBook}
+                key={idx}
+                bookData={myBook}
+              />
             ))}
           </div>
         </div>
       </div>
-      <Modal onClose={() => setActiveBook(null)} open={Boolean(activeBook)}>
+      <Modal
+        onClose={() => {
+          setActiveBook(null);
+        }}
+        open={Boolean(activeBook)}
+      >
         <div className="lg:w-3/5 lg:h-3/4 w-5/6 h-5/6 top-[8vh] left-[8vw] lg:top-[calc(16.6vh)] lg:left-[20vw]  flex justify-between p-2 absolute bg-white rounded-lg">
           <div className="w-full pl-10 flex flex-col gap-5 lg:justify-around items-center">
             <div>

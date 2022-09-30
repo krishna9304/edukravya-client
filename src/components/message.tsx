@@ -1,4 +1,5 @@
 import React from "react";
+import { User } from "../redux/slices/user";
 
 export interface MessageData {
   _id: string;

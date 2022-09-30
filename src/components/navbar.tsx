@@ -93,6 +93,7 @@ function Navbar({
         className={`flex px-20 pt-24 flex-col gap-6 md:flex-row md:justify-start justify-center bg-primary-700 items-center w-full p-8 z-0 
         ${extended ? "" : "h-0 scale-y-0 hidden"} duration-300`}
       >
+        {/* {JSON.stringify(user)} */}
         <span className="w-60 rounded-full ring-8 hover:ring-4 ring-secondary-500 duration-300">
           <Avatar
             src={user.avatar}
