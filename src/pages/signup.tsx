@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { Dispatch, useState } from "react";
 import { useCookies } from "react-cookie";
-import { Link, useRouteLoaderData } from "react-router-dom";
+import { Link } from "react-router-dom";
 import validator from "validator";
 import server from "../axios";
 import Logo from "../components/logo";

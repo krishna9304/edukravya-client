@@ -1,11 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import lectureReducer from "./slices/liveLecture";
 import userReducer from "./slices/user";
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
-    lecture: lectureReducer,
   },
 });
 
