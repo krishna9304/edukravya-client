@@ -55,7 +55,6 @@ export default function SignIn() {
           }: AxiosResponse<{ user: User; token: string }>) => {
             dispatch(setUser(user));
             setCookie("jwt", token);
-            console.log(user);
           }
         )
         .catch((err: AxiosError<any>): void =>

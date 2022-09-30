@@ -40,7 +40,7 @@ function Tests() {
         <div className="lg:pt-24 w-screen lg:max-w-fit sm:px-4">
           <div className="bg-primary lg:sticky top-32 py-6 lg:py-4 px-4 lg:px-8 rounded-xl lg:max-w-fit min-w-max bg-primary-500">
             <div className="flex gap-2 justify-between items-center">
-              <span className="text-white text-xl min-w-max">
+              <span className="text-white text-xl font-semibold min-w-max">
                 {toppers.testName} Results
               </span>
               <span className="flex bg-white ring-2 ring-white justify-center max-w-fit items-center px-2 font-bold rounded-full text-green-400 border-[3px] border-green-400">
@@ -127,8 +127,8 @@ function Tests() {
       </div>
       {/* sep */}
       <div className="pb-16 flex 2xl:w-3/5 flex-col gap-2">
-        <div className="text-2xl font-bold pt-6 flex justify-between">
-          TESTS
+        <div className="text-secondary-700 text-2xl font-bold px-6 pt-6 flex justify-between">
+          CONTEST
         </div>
         <div className="px-5 sm:px-10 py-4 flex flex-col gap-3">
           <div className="font-bold text-xl">ONGOING TESTS</div>

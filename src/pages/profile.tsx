@@ -1,18 +1,22 @@
 import {
   ContentCopyRounded,
+  EditRounded,
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
 import {
   Avatar,
+  Badge,
   Button,
+  FormControlLabel,
   IconButton,
   Input,
   InputAdornment,
+  InputLabel,
   Modal,
   Tooltip,
 } from "@mui/material";
-import { Dispatch, useState } from "react";
+import { ChangeEvent, Dispatch, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Page from "../components/page";
@@ -34,6 +38,7 @@ interface UpdatedProfileData {
   userId?: string;
   bio?: string;
   password?: string;
+  avatar?: any;
 }
 
 const getErrors: (updatedProfileData: UpdatedProfileData | null) => string[] = (
@@ -79,11 +84,12 @@ function Profile() {
   const [profileData, setProfileData] = useState<User | null>(
     isMyProfile ? user : null
   );
-
-  const [, setCookie] = useCookies<"jwt", { jwt: string }>(["jwt"]);
-
   const [updatedProfileData, setUpdatedProfileData] =
     useState<UpdatedProfileData | null>(null);
+
+  const [updatedAvatarPreview, setUpdatedAvatarPreview] = useState(
+    profileData?.avatar
+  );
 
   const [isUpdatedPswdVisible, setIsUpdatedPswdVisible] =
     useState<boolean>(false);
@@ -97,29 +103,38 @@ function Profile() {
       !Object.values(updatedProfileData).includes(null) &&
       !Object.values(updatedProfileData).includes("")
     ) {
+      // {
+      //     name:
+      //       updatedProfileData?.name != profileData?.name
+      //         ? updatedProfileData?.name
+      //         : null,
+      //     email:
+      //       updatedProfileData?.email != profileData?.email
+      //         ? updatedProfileData?.email
+      //         : null,
+      //     password:
+      //       updatedProfileData?.password != ""
+      //         ? updatedProfileData?.password
+      //         : null,
+      //     phone:
+      //       updatedProfileData?.phone != profileData?.phone
+      //         ? updatedProfileData?.phone
+      //         : null,
+      //     userId:
+      //       updatedProfileData?.userId != profileData?.userId
+      //         ? updatedProfileData?.userId
+      //         : null,
+      //   }
+      const reqBody = new FormData();
+      reqBody.append("avatar", updatedProfileData.avatar);
+      if (
+        updatedProfileData &&
+        updatedProfileData.name &&
+        updatedProfileData.name != profileData?.name
+      )
+        reqBody.append("name", updatedProfileData.name);
       server
-        .put("/api/user/update", {
-          name:
-            updatedProfileData?.name != profileData?.name
-              ? updatedProfileData?.name
-              : null,
-          email:
-            updatedProfileData?.email != profileData?.email
-              ? updatedProfileData?.email
-              : null,
-          password:
-            updatedProfileData?.password != ""
-              ? updatedProfileData?.password
-              : null,
-          phone:
-            updatedProfileData?.phone != profileData?.phone
-              ? updatedProfileData?.phone
-              : null,
-          userId:
-            updatedProfileData?.userId != profileData?.userId
-              ? updatedProfileData?.userId
-              : null,
-        })
+        .put("/api/user/update", reqBody)
         .then(({ data }: AxiosResponse<{ user: User; token: string }>) => {
           dispatch(
             setUser({
@@ -150,9 +165,20 @@ function Profile() {
     }
   };
 
+  useEffect((): (() => void) => {
+    let preview: string;
+    if (updatedProfileData?.avatar) {
+      preview = URL.createObjectURL(updatedProfileData?.avatar);
+      setUpdatedAvatarPreview(preview);
+    }
+    return (): void => {
+      URL.revokeObjectURL(preview);
+    };
+  }, [updatedProfileData?.avatar]);
+
   return (
     <Page>
-      <div className="flex justify-center sm:px-20 sm:py-10 bg-pink-50 grow">
+      <div className="flex justify-center sm:px-20 sm:py-10 grow">
         <div className="w-full max-w-3xl grow shadow-2xl rounded-xl flex flex-col sm:flex-row">
           <div className="sm:w-1/2 grow h-full flex justify-center items-center flex-col p-10 rounded-l-xl border-r bg-white border-r-black">
             <span className="ring-8 w-40 hover:ring-4 rounded-full duration-300">
@@ -261,7 +287,49 @@ function Profile() {
       >
         <div className="absolute w-max max-w-[100vw] flex flex-col gap-6 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 py-4 md:py-8 px-6 md:px-12 bg-white rounded-lg shadow-md">
           <div className="text-lg font-semibold">Update Profile</div>
-          <div className="flex gap-4 flex-col justify-around">
+          <div className="flex gap-4 sm:px-10 flex-col justify-between items-center">
+            <Tooltip
+              className="grow pl-6 flex justify-center items-center"
+              placement="right-start"
+              title={"Update Avatar"}
+            >
+              <FormControlLabel
+                control={
+                  <input
+                    accept="image/*"
+                    onChange={(e: ChangeEvent<HTMLInputElement>): void => {
+                      if (!e.target.files) return;
+                      setUpdatedProfileData(
+                        (
+                          prevData: UpdatedProfileData | null
+                        ): UpdatedProfileData | null => ({
+                          ...prevData,
+                          avatar: e.target.files?.[0],
+                        })
+                      );
+                    }}
+                    type="file"
+                    className="hidden"
+                  />
+                }
+                label={
+                  <div className="flex flex-col justify-center items-center grow">
+                    <Avatar
+                      sx={{
+                        width: "10rem",
+                        height: "10rem",
+                      }}
+                      src={updatedAvatarPreview}
+                    />
+                    {updatedProfileData?.avatar && (
+                      <div className="text-sm p-2 text-gray-500">
+                        {updatedProfileData.avatar.name}
+                      </div>
+                    )}{" "}
+                  </div>
+                }
+              />
+            </Tooltip>
             <Input
               error={
                 updatedProfileData?.name != null &&

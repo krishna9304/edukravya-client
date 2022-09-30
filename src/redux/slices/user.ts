@@ -48,7 +48,6 @@ export const userSlice: Slice<
           phoneVerified: action.payload?.phoneVerified,
         },
       };
-      console.log(state);
       return state;
     },
     removeUser: (state: User): User => {

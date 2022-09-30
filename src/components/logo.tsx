@@ -77,6 +77,7 @@ function Logo({
           src={edukravyaImage}
           alt="Edukravya logo"
         />
+        <span className="absolute opacity-0">K</span>
         <span>RAVYA</span>
       </div>
     </Link>

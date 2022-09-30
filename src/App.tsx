@@ -21,8 +21,9 @@ import Profile from "./pages/profile";
 import { connect, io, Socket } from "socket.io-client";
 import { serverURL } from "./constants";
 import DevPage from "./pages/dev";
-import { removeSocket, setSocket } from "./redux/slices/socket";
 import LiveLecture from "./pages/livelecture";
+import Batchpage from "./pages/batchpage";
+import socket from "./utils/socket";
 
 function App() {
   const [{ jwt }, setCookie, removeCookie] = useCookies<
@@ -36,10 +37,6 @@ function App() {
     (state: RootState): User => state.user
   );
 
-  const socket: Socket = useSelector<RootState, Socket>(
-    (state: RootState): Socket => state.socket
-  );
-
   const dispatch: Dispatch<AnyAction> = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -50,9 +47,8 @@ function App() {
         .get("/api/user/self")
         .then(({ data: userData }: AxiosResponse<User>): void => {
           dispatch(setUser(userData));
-          dispatch(setSocket(userData.userId));
+          //
           setIsLoading(false);
-          console.log(userData);
         })
         .catch((err: Error): void => {
           console.error(err);
@@ -62,15 +58,13 @@ function App() {
     } else {
       setIsLoading(false);
     }
-    return (): void => {
-      dispatch(removeSocket({}));
-    };
+    return (): void => {};
   }, []);
 
   return (
     <BrowserRouter>
       <Routes>
-        {/* NOT Allowed to authenticated users */}
+        {/* Allowed to unauthenticated users only */}
         <Route
           path="/signup"
           element={
@@ -95,9 +89,9 @@ function App() {
             )
           }
         />
-        {/* not allowed for unauthenticated users */}
+        {/* allowed authenticated users */}
         <Route
-          path="/live/:videoId"
+          path="/live/:lectureId"
           element={
             <AuthProtectedPage isLoading={isLoading}>
               <LiveLecture />
@@ -130,6 +124,7 @@ function App() {
         />
         {/* allowed to all */}
         <Route path="/" element={<Landingpage />} />
+        <Route path="/batch/:batchId" element={<Batchpage />} />
         <Route path="/dev" element={<DevPage />} />
         <Route path="/*" element={<PageNotFound />} />
       </Routes>

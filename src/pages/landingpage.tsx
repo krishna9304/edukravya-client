@@ -58,12 +58,12 @@ export default function Landingpage() {
               </Link>
             </div>
           )}
+          <img
+            src={landlogo}
+            className="max-w-xs hidden lg:block"
+            alt="theme image"
+          />
         </div>
-        <img
-          src={landlogo}
-          className="max-w-xs hidden lg:block"
-          alt="theme image"
-        />
       </div>
     </div>
   );

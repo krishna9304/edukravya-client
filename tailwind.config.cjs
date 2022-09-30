@@ -1,4 +1,5 @@
 const colors = require("tailwindcss/colors");
+const neumorphism = require("tailwindcss-neumorphism");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -15,7 +16,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [neumorphism],
 };
 
 // nonav: "calc(100vh-56px)",

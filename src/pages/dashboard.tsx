@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import Batches from "../components/batches";
 import Books from "../components/books";
 import Home from "../components/home";
-import LearningTree from "../components/learningtree";
+import LearningTrees from "../components/learningtrees";
 import PageWithBottomNav from "../components/pagewithbottomnav";
 import Tests from "../components/tests";
 import NavigateTo from "../components/navigateto";
@@ -25,7 +25,7 @@ function Dashboard() {
         ) : tab == validTabs[1] ? (
           <Batches />
         ) : tab == validTabs[2] ? (
-          <LearningTree />
+          <LearningTrees />
         ) : tab == validTabs[3] ? (
           <Tests />
         ) : tab == validTabs[4] ? (

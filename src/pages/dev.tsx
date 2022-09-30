@@ -9,10 +9,10 @@ function DevPage() {
   const [fId, setFId] = useState<string>();
   const [myPeer, setMyPeer] = useState<Peer>();
 
-  const getStream: (user?: boolean) => Promise<MediaStream> = (
-    user = true
+  const getStream: (streamReq?: "user" | "screen") => Promise<MediaStream> = (
+    streamReq = "user"
   ): Promise<MediaStream> => {
-    if (user)
+    if (streamReq == "user")
       return navigator.mediaDevices.getUserMedia({
         video: true,
         audio: true,
@@ -21,12 +21,10 @@ function DevPage() {
   };
 
   useEffect((): (() => void) => {
-    console.log("first");
-
     const peer = new Peer();
     setMyPeer(peer);
 
-    getStream(false)
+    getStream()
       .then((stream: MediaStream): void => {
         setMyStream(stream);
         peer.on("connection", (conn: DataConnection): void => {
