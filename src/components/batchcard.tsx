@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export interface BatchData {
-  title: string;
-  thumbnail: string;
-  batchId: string;
+  title?: string;
+  thumbnail?: string;
+  batchId?: string;
+  description?: string;
 }
 
 export default function BatchCard({ batchData }: { batchData: BatchData }) {

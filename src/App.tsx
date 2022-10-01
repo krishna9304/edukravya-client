@@ -23,6 +23,7 @@ import { serverURL } from "./constants";
 import LiveLecture from "./pages/livelecture";
 import Batchpage from "./pages/batchpage";
 import socket from "./utils/socket";
+import AddBatchPage from "./pages/addbatch-e";
 
 function App() {
   const [{ jwt }, setCookie, removeCookie] = useCookies<
@@ -114,6 +115,14 @@ function App() {
           element={
             <AuthProtectedPage isLoading={isLoading}>
               <Documents />
+            </AuthProtectedPage>
+          }
+        />
+        <Route
+          path="/addbatch"
+          element={
+            <AuthProtectedPage isLoading={isLoading}>
+              <AddBatchPage />
             </AuthProtectedPage>
           }
         />
