@@ -8,10 +8,8 @@ export const getServerErrors = (err: AxiosError<any>) => {
     let errs: string[] = [];
     try {
       errs = JSON.parse(errString[0]);
-      console.log(errs);
     } catch {
       errs = [errString[0]];
-      console.log(errs);
     }
     return errs;
   }

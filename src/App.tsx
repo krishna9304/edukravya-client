@@ -20,7 +20,6 @@ import AuthProtectedPage from "./components/authprotectedpage";
 import Profile from "./pages/profile";
 import { connect, io, Socket } from "socket.io-client";
 import { serverURL } from "./constants";
-import DevPage from "./pages/dev";
 import LiveLecture from "./pages/livelecture";
 import Batchpage from "./pages/batchpage";
 import socket from "./utils/socket";
@@ -45,15 +44,19 @@ function App() {
       server.defaults.headers.common["x-access-token"] = jwt;
       server
         .get("/api/user/self")
-        .then(({ data: userData }: AxiosResponse<User>): void => {
-          dispatch(setUser(userData));
-          //
-          setIsLoading(false);
-        })
+        .then(
+          ({
+            data: { user, token },
+          }: AxiosResponse<{ user: User; token: string }>): void => {
+            dispatch(setUser(user));
+            //
+            setIsLoading(false);
+          }
+        )
         .catch((err: Error): void => {
           console.error(err);
           setIsLoading(false);
-          // removeCookie("jwt");
+          removeCookie("jwt");
         });
     } else {
       setIsLoading(false);
@@ -125,7 +128,6 @@ function App() {
         {/* allowed to all */}
         <Route path="/" element={<Landingpage />} />
         <Route path="/batch/:batchId" element={<Batchpage />} />
-        <Route path="/dev" element={<DevPage />} />
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>

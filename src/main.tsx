@@ -11,14 +11,12 @@ import { CookiesProvider } from "react-cookie";
 import { StrictMode } from "react";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <StrictMode>
-    <Provider store={store}>
-      <CookiesProvider>
-        <ThemeProvider theme={MuiTheme}>
-          <App />
-        </ThemeProvider>
-        <ToastContainer theme="dark" position="bottom-right" />
-      </CookiesProvider>
-    </Provider>
-  </StrictMode>
+  <Provider store={store}>
+    <CookiesProvider>
+      <ThemeProvider theme={MuiTheme}>
+        <App />
+      </ThemeProvider>
+      <ToastContainer theme="dark" position="bottom-right" />
+    </CookiesProvider>
+  </Provider>
 );

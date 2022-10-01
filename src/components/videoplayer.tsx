@@ -22,6 +22,7 @@ const VideoPlayer: FC<VideoProps> = ({
 
   useEffect((): (() => void) => {
     if (ref.current && isFullScreen) {
+      console.log("requested fullscreen");
       ref.current.requestFullscreen();
     }
     return (): void => {};

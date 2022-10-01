@@ -34,7 +34,7 @@ export default function SignIn() {
   });
 
   const dispatch: Dispatch<AnyAction> = useDispatch();
-  const [, setCookie] = useCookies(["jwt"]);
+  const [, setCookie, removeCookie] = useCookies(["jwt"]);
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
@@ -54,6 +54,7 @@ export default function SignIn() {
             data: { user, token },
           }: AxiosResponse<{ user: User; token: string }>) => {
             dispatch(setUser(user));
+            removeCookie("jwt");
             setCookie("jwt", token);
           }
         )

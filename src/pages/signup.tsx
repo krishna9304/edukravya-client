@@ -101,7 +101,7 @@ export default function SignUp() {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const dispatch: Dispatch<AnyAction> = useDispatch();
-  const [, setCookie] = useCookies(["jwt"]);
+  const [, setCookie, removeCookie] = useCookies(["jwt"]);
 
   const [educatorData, setEducatorData] = useState<EducatorData>({});
 
@@ -157,7 +157,6 @@ export default function SignUp() {
 
   const handleSignUp = () => {
     if (verifyUserData()) {
-      console.log("first");
       if (signUpData.userType == "educator") {
         if (verifyUserData()) handleUerSignUp();
       } else {
@@ -182,6 +181,7 @@ export default function SignUp() {
           data: { user, token },
         }: AxiosResponse<{ user: User; token: string }>): void => {
           dispatch(setUser(user));
+          removeCookie("jwt");
           setCookie("jwt", token);
         }
       )

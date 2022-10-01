@@ -151,7 +151,6 @@ function Chatbar() {
                   <SendRounded
                     className="cursor-pointer"
                     onClick={(e) => {
-                      console.log(message);
                       setMessages((pmsgs: MessageData[]) => [
                         ...pmsgs,
                         {
