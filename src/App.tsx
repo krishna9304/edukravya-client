@@ -24,6 +24,7 @@ import LiveLecture from "./pages/livelecture";
 import Batchpage from "./pages/batchpage";
 import socket from "./utils/socket";
 import AddBatchPage from "./pages/addbatch-e";
+import OnBoarding from "./pages/onboarding";
 
 function App() {
   const [{ jwt }, setCookie, removeCookie] = useCookies<
@@ -43,27 +44,29 @@ function App() {
   useEffect((): (() => void) => {
     if (jwt) {
       server.defaults.headers.common["x-access-token"] = jwt;
-      server
-        .get("/api/user/self")
-        .then(
-          ({
-            data: { user, token },
-          }: AxiosResponse<{ user: User; token: string }>): void => {
-            dispatch(setUser(user));
-            //
+      if (!user.userId) {
+        server
+          .get("/api/user/self")
+          .then(
+            ({
+              data: { user, token },
+            }: AxiosResponse<{ user: User; token: string }>): void => {
+              dispatch(setUser(user));
+              setCookie("jwt", token);
+              setIsLoading(false);
+            }
+          )
+          .catch((err: Error): void => {
+            console.error(err);
             setIsLoading(false);
-          }
-        )
-        .catch((err: Error): void => {
-          console.error(err);
-          setIsLoading(false);
-          removeCookie("jwt");
-        });
+            removeCookie("jwt");
+          });
+      }
     } else {
       setIsLoading(false);
     }
     return (): void => {};
-  }, []);
+  }, [jwt]);
 
   return (
     <BrowserRouter>
@@ -99,6 +102,14 @@ function App() {
           element={
             <AuthProtectedPage isLoading={isLoading}>
               <LiveLecture />
+            </AuthProtectedPage>
+          }
+        />
+        <Route
+          path="/onboarding"
+          element={
+            <AuthProtectedPage isLoading={isLoading}>
+              <OnBoarding />
             </AuthProtectedPage>
           }
         />

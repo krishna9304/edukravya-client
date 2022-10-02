@@ -28,6 +28,7 @@ import { User } from "../redux/slices/user";
 import { RootState } from "../redux/store";
 import socket from "../utils/socket";
 import {
+  GET_SCREEN,
   GET_SCREEN_REQUEST,
   GET_STREAM,
   GET_USER,
@@ -107,7 +108,7 @@ function LiveLecture() {
     socket.on(IS_ADMIN, (admin: boolean) => {
       setIsAdmin(admin);
       if (admin) {
-        socket.on(GET_STREAM, (studentPeerId) => {
+        socket.on(GET_USER, (studentPeerId) => {
           // call the user
           if (studentPeerId) {
             console.log(userStream);
@@ -122,7 +123,7 @@ function LiveLecture() {
             );
           }
         });
-        socket.on(GET_STREAM, (studentPeerId) => {
+        socket.on(GET_SCREEN, (studentPeerId) => {
           // call the user
           if (studentPeerId) {
             if (screenStream) {

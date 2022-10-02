@@ -126,29 +126,60 @@ function Profile() {
       //         : null,
       //   }
       const reqBody = new FormData();
-      reqBody.append("avatar", updatedProfileData.avatar);
+      if (updatedProfileData.avatar) {
+        reqBody.append("avatar", updatedProfileData.avatar);
+      }
       if (
-        updatedProfileData &&
         updatedProfileData.name &&
         updatedProfileData.name != profileData?.name
-      )
+      ) {
         reqBody.append("name", updatedProfileData.name);
-      server
-        .put("/api/user/update", reqBody)
-        .then(({ data }: AxiosResponse<{ user: User; token: string }>) => {
-          dispatch(
-            setUser({
-              ...user,
-              ...updatedProfileData,
-            })
-          );
-          toast.success("User updated");
-        })
-        .catch((err: AxiosError<any>) => {
-          getServerErrors(err).forEach((err: string) => {
-            toast.error(err);
+      }
+      if (
+        updatedProfileData.email &&
+        updatedProfileData.email != profileData?.email
+      ) {
+        reqBody.append("email", updatedProfileData.email);
+      }
+      if (
+        updatedProfileData.bio &&
+        updatedProfileData.bio != profileData?.bio
+      ) {
+        reqBody.append("bio", updatedProfileData.bio);
+      }
+      if (
+        updatedProfileData.phone &&
+        updatedProfileData.phone != profileData?.phone
+      ) {
+        reqBody.append("phone", updatedProfileData.phone);
+      }
+      if (updatedProfileData.password) {
+        reqBody.append("password", updatedProfileData.password);
+      }
+      if (
+        updatedProfileData.userId &&
+        updatedProfileData.userId != profileData?.userId
+      ) {
+        reqBody.append(".userId", updatedProfileData.userId);
+      }
+      if ([...reqBody.entries()].length) {
+        server
+          .put("/api/user/update", reqBody)
+          .then(({ data }: AxiosResponse<{ user: User; token: string }>) => {
+            dispatch(
+              setUser({
+                ...user,
+                ...updatedProfileData,
+              })
+            );
+            toast.success("User updated");
+          })
+          .catch((err: AxiosError<any>) => {
+            getServerErrors(err).forEach((err: string) => {
+              toast.error(err);
+            });
           });
-        });
+      }
     }
     if (getErrors(updatedProfileData).length) {
       getErrors(updatedProfileData).forEach((err: string) => {
@@ -325,7 +356,7 @@ function Profile() {
                       <div className="text-sm p-2 text-gray-500">
                         {updatedProfileData.avatar.name}
                       </div>
-                    )}{" "}
+                    )}
                   </div>
                 }
               />
