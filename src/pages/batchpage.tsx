@@ -1,8 +1,10 @@
-import { Avatar } from "@mui/material";
+import { Avatar, Button } from "@mui/material";
 import Page from "../components/page";
 import VideoCard from "../components/videocard";
+import { useState } from "react";
+import { Subjects } from "./signup";
 
-// batch name, teacher name, subject, qualification, description, days
+// batch name, teacher name, subject, qualification, description
 export default function Batchpage() {
   return (
     <Page>
@@ -52,10 +54,17 @@ export default function Batchpage() {
             <div className="flex grow max-w-md justify-center items-center">
               <div className="bg-secondary-200 p-3 w-full rounded-md border-2">
                 <VideoCard />
+                obv
               </div>
             </div>
           </div>
         </div>
+      </div>
+      <div className="fixed flex justify-between items-center text-white font-semibold bottom-0 left-0 bg-primary-500 px-4 py-2 w-full">
+        <div>Price: 1500</div>
+        <Button color="info" variant="contained">
+          Buy
+        </Button>
       </div>
     </Page>
   );

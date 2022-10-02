@@ -20,10 +20,11 @@ import AuthProtectedPage from "./components/authprotectedpage";
 import Profile from "./pages/profile";
 import { connect, io, Socket } from "socket.io-client";
 import { serverURL } from "./constants";
-import DevPage from "./pages/dev";
 import LiveLecture from "./pages/livelecture";
 import Batchpage from "./pages/batchpage";
 import socket from "./utils/socket";
+import AddBatchPage from "./pages/addbatch-e";
+import OnBoarding from "./pages/onboarding";
 
 function App() {
   const [{ jwt }, setCookie, removeCookie] = useCookies<
@@ -43,23 +44,29 @@ function App() {
   useEffect((): (() => void) => {
     if (jwt) {
       server.defaults.headers.common["x-access-token"] = jwt;
-      server
-        .get("/api/user/self")
-        .then(({ data: userData }: AxiosResponse<User>): void => {
-          dispatch(setUser(userData));
-          //
-          setIsLoading(false);
-        })
-        .catch((err: Error): void => {
-          console.error(err);
-          setIsLoading(false);
-          // removeCookie("jwt");
-        });
+      if (!user.userId) {
+        server
+          .get("/api/user/self")
+          .then(
+            ({
+              data: { user, token },
+            }: AxiosResponse<{ user: User; token: string }>): void => {
+              dispatch(setUser(user));
+              setCookie("jwt", token);
+              setIsLoading(false);
+            }
+          )
+          .catch((err: Error): void => {
+            console.error(err);
+            setIsLoading(false);
+            removeCookie("jwt");
+          });
+      }
     } else {
       setIsLoading(false);
     }
     return (): void => {};
-  }, []);
+  }, [jwt]);
 
   return (
     <BrowserRouter>
@@ -99,6 +106,14 @@ function App() {
           }
         />
         <Route
+          path="/onboarding"
+          element={
+            <AuthProtectedPage isLoading={isLoading}>
+              <OnBoarding />
+            </AuthProtectedPage>
+          }
+        />
+        <Route
           path="/user/:id"
           element={
             <AuthProtectedPage isLoading={isLoading}>
@@ -115,6 +130,14 @@ function App() {
           }
         />
         <Route
+          path="/addbatch"
+          element={
+            <AuthProtectedPage isLoading={isLoading}>
+              <AddBatchPage />
+            </AuthProtectedPage>
+          }
+        />
+        <Route
           path="/dashboard/:tab"
           element={
             <AuthProtectedPage isLoading={isLoading}>
@@ -125,7 +148,6 @@ function App() {
         {/* allowed to all */}
         <Route path="/" element={<Landingpage />} />
         <Route path="/batch/:batchId" element={<Batchpage />} />
-        <Route path="/dev" element={<DevPage />} />
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>

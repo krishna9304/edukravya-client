@@ -9,11 +9,13 @@ import {
   InputAdornment,
   InputLabel,
   MenuItem,
+  OutlinedInput,
   Radio,
   RadioGroup,
   Select,
   SelectChangeEvent,
   TextareaAutosize,
+  TextField,
 } from "@mui/material";
 import { Dispatch, useState } from "react";
 import { useCookies } from "react-cookie";
@@ -101,11 +103,7 @@ export default function SignUp() {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const dispatch: Dispatch<AnyAction> = useDispatch();
-  const [, setCookie] = useCookies(["jwt"]);
-
-  const [educatorData, setEducatorData] = useState<EducatorData>({});
-
-  const [doneUser, setDoneUser] = useState<boolean>(false);
+  const [, setCookie, removeCookie] = useCookies(["jwt"]);
 
   const verifyUserData: () => boolean = (): boolean => {
     if (
@@ -131,43 +129,6 @@ export default function SignUp() {
     return false;
   };
 
-  const verifyEducatorData: () => boolean = (): boolean => {
-    if (
-      !getEducatorDataErrors(educatorData).length &&
-      !Object.values(educatorData).includes(null) &&
-      !Object.values(educatorData).includes("")
-    ) {
-      return true;
-    }
-    if (getEducatorDataErrors(educatorData).length) {
-      getEducatorDataErrors(educatorData).forEach((err: string): void => {
-        toast.error(err);
-      });
-      return false;
-    }
-    if (Object.values(educatorData).includes(null)) {
-      Object.keys(educatorData).forEach((key: string): void => {
-        if (!educatorData[key as keyof EducatorData])
-          toast.error(`field \`${key}\` can not be empty`);
-      });
-      return false;
-    }
-    return false;
-  };
-
-  const handleSignUp = () => {
-    if (verifyUserData()) {
-      console.log("first");
-      if (signUpData.userType == "educator") {
-        if (verifyUserData()) handleUerSignUp();
-      } else {
-        if (verifyEducatorData()) handleEducatorSignup();
-      }
-    }
-  };
-
-  const handleEducatorSignup = () => {};
-
   const handleUerSignUp = () => {
     server
       .post("/api/user/register", {
@@ -182,6 +143,7 @@ export default function SignUp() {
           data: { user, token },
         }: AxiosResponse<{ user: User; token: string }>): void => {
           dispatch(setUser(user));
+          removeCookie("jwt");
           setCookie("jwt", token);
         }
       )
@@ -209,262 +171,162 @@ export default function SignUp() {
             HAVE A GREAT DAY !!
           </div>
         </div>
-        {!doneUser ? (
-          <div className="flex gap-10 flex-col justify-between py-10 px-10 h-full w-full sm:w-1/2 bg-white rounded-xl sm:rounded-l-none">
-            <div className="text-4xl font-black cursor-default">Sign Up</div>
-            <div className="flex gap-2 flex-col justify-around h-1/2">
-              <Input
-                error={
-                  signUpData.name != null && signUpData.name.trim().length < 8
-                }
-                onChange={(e): void => {
-                  setSignUpData(
-                    (prevData: SignUpData): SignUpData => ({
-                      ...prevData,
-                      name: e.target.value,
-                    })
-                  );
-                }}
-                size="small"
-                className="px-2 py-2 w-full text-gray-500 bg-white rounded-sm "
-                placeholder="Name"
-              />
-              <Input
-                error={
-                  signUpData.userId != null &&
-                  signUpData.userId.trim().length < 8
-                }
-                onChange={(e): void => {
-                  setSignUpData(
-                    (prevData: SignUpData): SignUpData => ({
-                      ...prevData,
-                      userId: e.target.value,
-                    })
-                  );
-                }}
-                size="small"
-                className="px-2 py-2 w-full text-gray-500 bg-white rounded-sm "
-                placeholder="Username"
-              />
-              <Input
-                error={
-                  signUpData.email != null &&
-                  !validator.isEmail(signUpData.email + "")
-                }
-                onChange={(e) => {
-                  setSignUpData((prevData) => ({
+        <div className="flex gap-10 flex-col justify-between py-10 px-10 h-full w-full sm:w-1/2 bg-white rounded-xl sm:rounded-l-none">
+          <div className="text-4xl font-black cursor-default">Sign Up</div>
+          <div className="flex gap-2 flex-col justify-around h-1/2">
+            <Input
+              error={
+                signUpData.name != null && signUpData.name.trim().length < 8
+              }
+              onChange={(e): void => {
+                setSignUpData(
+                  (prevData: SignUpData): SignUpData => ({
                     ...prevData,
-                    email: e.target.value,
-                  }));
-                }}
-                type="email"
-                size="small"
-                className="px-2 py-2 w-full text-gray-500 bg-white rounded-sm "
-                placeholder="Email Address"
-              />
-              <Input
-                error={
-                  signUpData.phone != null &&
-                  !validator.isMobilePhone(signUpData.phone + "")
-                }
-                onChange={(e): void => {
-                  setSignUpData(
-                    (prevData: SignUpData): SignUpData => ({
-                      ...prevData,
-                      phone: e.target.value,
-                    })
-                  );
-                }}
-                type="tel"
-                size="small"
-                className="px-2 py-2 w-full text-gray-500 bg-white rounded-sm "
-                placeholder="Phone"
-              />
-              <Input
-                onChange={(e): void => {
-                  setSignUpData(
-                    (prevData: SignUpData): SignUpData => ({
-                      ...prevData,
-                      password: e.target.value,
-                    })
-                  );
-                }}
-                error={
-                  signUpData.password != null &&
-                  signUpData.password.trim().length < 8
-                }
-                size="small"
-                type={isVisible ? "text" : "password"}
-                className="px-2 py-2.5 text-gray-500 bg-white w-full rounded-sm "
-                placeholder="Create Password"
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={(): void => {
-                        setIsVisible((pv: boolean): boolean => !pv);
-                      }}
-                      edge="end"
-                    >
-                      {isVisible ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
+                    name: e.target.value,
+                  })
+                );
+              }}
+              size="small"
+              className="px-2 py-2 w-full text-gray-500 bg-white rounded-sm "
+              placeholder="Name"
+            />
+            <Input
+              error={
+                signUpData.userId != null && signUpData.userId.trim().length < 8
+              }
+              onChange={(e): void => {
+                setSignUpData(
+                  (prevData: SignUpData): SignUpData => ({
+                    ...prevData,
+                    userId: e.target.value,
+                  })
+                );
+              }}
+              size="small"
+              className="px-2 py-2 w-full text-gray-500 bg-white rounded-sm "
+              placeholder="Username"
+            />
+            <Input
+              error={
+                signUpData.email != null &&
+                !validator.isEmail(signUpData.email + "")
+              }
+              onChange={(e) => {
+                setSignUpData((prevData) => ({
+                  ...prevData,
+                  email: e.target.value,
+                }));
+              }}
+              type="email"
+              size="small"
+              className="px-2 py-2 w-full text-gray-500 bg-white rounded-sm "
+              placeholder="Email Address"
+            />
+            <Input
+              error={
+                signUpData.phone != null &&
+                !validator.isMobilePhone(signUpData.phone + "")
+              }
+              onChange={(e): void => {
+                setSignUpData(
+                  (prevData: SignUpData): SignUpData => ({
+                    ...prevData,
+                    phone: e.target.value,
+                  })
+                );
+              }}
+              type="tel"
+              size="small"
+              className="px-2 py-2 w-full text-gray-500 bg-white rounded-sm "
+              placeholder="Phone"
+            />
+            <Input
+              onChange={(e): void => {
+                setSignUpData(
+                  (prevData: SignUpData): SignUpData => ({
+                    ...prevData,
+                    password: e.target.value,
+                  })
+                );
+              }}
+              error={
+                signUpData.password != null &&
+                signUpData.password.trim().length < 8
+              }
+              size="small"
+              type={isVisible ? "text" : "password"}
+              className="px-2 py-2.5 text-gray-500 bg-white w-full rounded-sm "
+              placeholder="Create Password"
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={(): void => {
+                      setIsVisible((pv: boolean): boolean => !pv);
+                    }}
+                    edge="end"
+                  >
+                    {isVisible ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
 
-              <FormControl>
-                <FormLabel
-                  sx={{
-                    fontSize: 14,
-                  }}
-                >
-                  User Type
-                </FormLabel>
-                <RadioGroup
-                  aria-labelledby="user-radio-buttons-group-label"
-                  defaultValue="student"
-                  name="user-type"
-                  row
-                  onChange={(e): void => {
-                    setSignUpData(
-                      (pd: SignUpData): SignUpData => ({
-                        ...pd,
-                        userType:
-                          e.target.value == "student" ? "student" : "educator",
-                      })
-                    );
-                  }}
-                >
-                  <FormControlLabel
-                    value="student"
-                    control={<Radio />}
-                    label="Student"
-                  />
-                  <FormControlLabel
-                    value="educator"
-                    control={<Radio />}
-                    label="Educator"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </div>
-            <div className="flex flex-col gap-2">
-              <div>
-                <Button
-                  onClick={() => {
-                    if (signUpData.userType == "student") {
-                      handleUerSignUp();
-                    } else {
-                      setDoneUser(true);
-                    }
-                  }}
-                  color="success"
-                  variant="contained"
-                  className="w-full"
-                >
-                  <div className="text-white">
-                    {signUpData.userType == "student" ? "sign up" : "proceed"}
-                  </div>
-                </Button>
-              </div>
-              <div className="text-sm text-right select-none">
-                already have an account?
-                <Link to="/signin" className="pl-1 font-bold cursor-pointer">
-                  Sign In
-                </Link>
-              </div>
-            </div>
-          </div>
-        ) : (
-          // Educator signup
-          <div className="flex bg-pink-200 gap-10 flex-col justify-between py-10 px-10 h-full w-full sm:w-1/2 rounded-xl sm:rounded-l-none">
-            <div className="text-xl font-black cursor-default">
-              Tell us more about you
-            </div>
-            <div className="flex gap-2 flex-col justify-around h-1/2">
-              <Input
-                onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                  setEducatorData(
-                    (prevData: EducatorData): EducatorData => ({
-                      ...prevData,
-                      qualification: e.target.value,
-                    })
-                  );
+            <FormControl>
+              <FormLabel
+                sx={{
+                  fontSize: 14,
                 }}
-                type="text"
-                size="small"
-                className="px-2 py-2 w-full text-gray-500 bg-white rounded-sm "
-                placeholder="Qualification"
-              />
-              <Input
-                onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                  setEducatorData(
-                    (prevData: EducatorData): EducatorData => ({
-                      ...prevData,
-                      experience: parseInt(e.target.value),
-                    })
-                  );
-                }}
-                type="number"
-                size="small"
-                className="px-2 py-2 w-full text-gray-500 bg-white rounded-sm "
-                placeholder="Experience"
-              />
-              <FormControl>
-                <InputLabel variant="outlined" id="subject-label">
-                  Subject
-                </InputLabel>
-                <Select
-                  labelId="subject-label"
-                  value={educatorData.subject}
-                  label="Subject"
-                  onChange={(e: SelectChangeEvent<Subjects>): void => {
-                    setEducatorData(
-                      (prevData: EducatorData): EducatorData => ({
-                        ...prevData,
-                        subject: e.target.value as Subjects,
-                      })
-                    );
-                  }}
-                  size="small"
-                  className="px-2 py-2 w-full text-gray-500 bg-white rounded-sm "
-                  placeholder="Subject"
-                >
-                  <MenuItem value="CHEMISTRY">Chemistry</MenuItem>
-                  <MenuItem value="PHYSICS">Physics</MenuItem>
-                  <MenuItem value="MATHS">Maths</MenuItem>
-                  <MenuItem value="BIOLOGY">Biology</MenuItem>
-                </Select>
-              </FormControl>
-              <TextareaAutosize
+              >
+                User Type
+              </FormLabel>
+              <RadioGroup
+                aria-labelledby="user-radio-buttons-group-label"
+                defaultValue="student"
+                name="user-type"
+                row
                 onChange={(e): void => {
-                  setEducatorData(
-                    (prevData: EducatorData): EducatorData => ({
-                      ...prevData,
-                      vision: e.target.value,
+                  setSignUpData(
+                    (pd: SignUpData): SignUpData => ({
+                      ...pd,
+                      userType:
+                        e.target.value == "student" ? "student" : "educator",
                     })
                   );
                 }}
-                minRows={2}
-                maxRows={4}
-                className="px-2 py-2 w-full text-gray-500 bg-white rounded-sm "
-                placeholder="Vision"
-              />
+              >
+                <FormControlLabel
+                  value="student"
+                  control={<Radio />}
+                  label="Student"
+                />
+                <FormControlLabel
+                  value="educator"
+                  control={<Radio />}
+                  label="Educator"
+                />
+              </RadioGroup>
+            </FormControl>
+          </div>
+          <div className="flex flex-col gap-2">
+            <div>
+              <Button
+                onClick={handleUerSignUp}
+                color="success"
+                variant="contained"
+                className="w-full"
+              >
+                <div className="text-white">SIGN UP </div>
+              </Button>
             </div>
-            <div className="flex flex-col gap-2">
-              <div>
-                <Button
-                  onClick={handleSignUp}
-                  color="success"
-                  variant="contained"
-                  className="w-full"
-                >
-                  <div className="text-white">Sign Up</div>
-                </Button>
-              </div>
+            <div className="text-sm text-right select-none">
+              already have an account?
+              <Link to="/signin" className="pl-1 font-bold cursor-pointer">
+                Sign In
+              </Link>
             </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

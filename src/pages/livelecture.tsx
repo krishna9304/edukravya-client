@@ -1,6 +1,7 @@
 import {
   CallEndRounded,
   ChatRounded,
+  DoNotTouchRounded,
   FullscreenRounded,
   MicOffRounded,
   MicRounded,
@@ -25,12 +26,22 @@ import Logo from "../components/logo";
 import VideoPlayer from "../components/videoplayer";
 import { User } from "../redux/slices/user";
 import { RootState } from "../redux/store";
-import { getScreenStream, getUserStream, initPeer } from "../utils/webRTC";
-
-interface Paused {
-  video: boolean;
-  audio: boolean;
-}
+import socket from "../utils/socket";
+import {
+  GET_SCREEN,
+  GET_SCREEN_REQUEST,
+  GET_STREAM,
+  GET_USER,
+  GET_USER_REQUEST,
+  IS_ADMIN,
+  PAUSE_USER,
+} from "../utils/socketaction";
+import {
+  answerCall,
+  getUserStream,
+  initPeer,
+  shareStreamAndSave,
+} from "../utils/webRTC";
 
 function LiveLecture() {
   const { lectureId } = useParams();
@@ -39,39 +50,49 @@ function LiveLecture() {
 
   const [userStream, setUserStream] = useState<MediaStream | undefined>();
   const [screenStream, setScreenStream] = useState<MediaStream | undefined>();
+  const [isHandRaised, setIsHandRaised] = useState<boolean>(false);
 
   const [isChatOpen, setIsChatOpen] = useState<boolean>(true);
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [isPresentationView, setIsPresentationView] = useState<boolean>(true);
 
-  const [paused, setPaused] = useState<Paused>({
-    audio: true,
-    video: true,
-  });
+  const [paused, setPaused] = useState<boolean>(true);
 
-  const [userPeer, setUserPeer] = useState<Peer>();
-  const [screenPeer, setScreenPeer] = useState<Peer>();
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+
+  const [userPeer, setUserPeer] = useState<Peer>(new Peer());
+  const [screenPeer, setScreenPeer] = useState<Peer>(new Peer());
 
   const [isFullScreen, setIsFullScreen] = useState(false);
 
   const dispatch: Dispatch<AnyAction> = useDispatch();
 
+  // const shareUserStream = (studentId: string) => {
+  //   if (userStream) {
+  //     shareStream(userPeer, userStream, studentId, "user");
+  //   } else {
+  //     getUserStream().then((stream: MediaStream): void => {
+  //       setUserStream(stream);
+  //       console.log(userPeer, studentId);
+  //       shareStream(userPeer, stream, studentId, "user");
+  //     });
+  //   }
+  // };
+
   useEffect((): (() => void) => {
-    if (userPeer) {
+    if (userPeer && lectureId) {
       initPeer(userPeer, "user");
-      userPeer.on("call", (call: MediaConnection): void => {
-        call.answer();
-        call.on("stream", (stream: MediaStream): void => {
-          console.log(`got ${call.metadata.streamType} stream`);
-          if (call.metadata.streamType == "user") {
+      answerCall(
+        userPeer,
+        lectureId,
+        (stream: MediaStream, type: "user" | "screen"): void => {
+          console.log("second");
+          if (type == "user") {
             setUserStream(stream);
           } else {
             setScreenStream(stream);
           }
-        });
-        call.on("error", console.error);
-        call.on("close", (): void => console.log("call closed"));
-      });
+        }
+      );
     }
     return (): void => {};
   }, [userPeer]);
@@ -84,8 +105,62 @@ function LiveLecture() {
   }, [screenPeer]);
 
   useEffect((): (() => void) => {
-    setUserPeer(new Peer());
-    setScreenPeer(new Peer());
+    socket.on(IS_ADMIN, (admin: boolean) => {
+      setIsAdmin(admin);
+      if (admin) {
+        socket.on(GET_USER, (studentPeerId) => {
+          // call the user
+          if (studentPeerId) {
+            console.log(userStream);
+            shareStreamAndSave(
+              userPeer,
+              userStream,
+              studentPeerId,
+              "user",
+              (stream: MediaStream): void => {
+                setUserStream(stream);
+              }
+            );
+          }
+        });
+        socket.on(GET_SCREEN, (studentPeerId) => {
+          // call the user
+          if (studentPeerId) {
+            if (screenStream) {
+              shareStreamAndSave(
+                screenPeer,
+                screenStream,
+                studentPeerId,
+                "screen",
+                (stream: MediaStream): void => {
+                  setScreenStream(stream);
+                }
+              );
+            }
+          }
+        });
+      } else {
+        socket.on(PAUSE_USER, () => {
+          console.log("pausing");
+          setUserStream(undefined);
+        });
+        socket.on(GET_USER, () => {
+          socket.emit(GET_STREAM, userPeer.id);
+        });
+      }
+      console.log(admin);
+    });
+    return (): void => {};
+  }, []);
+
+  useEffect((): (() => void) => {
+    if (userStream) {
+      // do something
+      socket.emit(GET_USER_REQUEST);
+    } else {
+      socket.emit(PAUSE_USER);
+    }
+
     return (): void => {};
   }, []);
 
@@ -93,9 +168,11 @@ function LiveLecture() {
     <div className="flex overflow-hidden flex-col w-full h-screen">
       <div className="w-full flex px-10 bg-gray-900 shadow-lg py-3">
         <div className=" flex sm:gap-6 gap-4 divide-x-2 justify-center items-center text-2xl font-semibold text-white">
-          <Logo />
+          <div className="hidden sm:block">
+            <Logo />
+          </div>
           <div className="md:pl-6 pl-4">Batch Name</div>
-          <div className="border-2 border-red-500 select-none bg-white ring-2 ring-white text-red-500 font-bold uppercase px-2 rounded-lg">
+          <div className="select-none ring-2 ring-red-500 bg-white text-red-500 font-bold uppercase px-2 rounded-lg">
             Live
           </div>
         </div>
@@ -132,129 +209,71 @@ function LiveLecture() {
             </div>
           </div>
           <div className="justify-center items-center">
-            <div className="py-2 px-6 rounded-full bg-gray-900 text-gray-500 flex gap-6 justify-center items-center">
-              <IconButton
-                onClick={(): void => {
-                  setPaused(
-                    (pp: Paused): Paused => ({
-                      ...pp,
-                      audio: !pp.audio,
-                    })
-                  );
-                }}
-                color="inherit"
-              >
-                {paused.audio ? (
-                  <MicOffRounded color="inherit" />
-                ) : (
-                  <MicRounded color="inherit" />
-                )}
-              </IconButton>
-              <IconButton
-                onClick={(): void => {
-                  setPaused(
-                    (pp: Paused): Paused => ({
-                      ...pp,
-                      video: !pp.video,
-                    })
-                  );
-                }}
-                color="inherit"
-              >
-                {paused.video ? (
-                  <VideocamOffRounded color="inherit" />
-                ) : (
-                  <VideocamRounded color="inherit" />
-                )}
-              </IconButton>
-              <IconButton
-                onClick={() => {
-                  if (!screenStream) {
-                    const f: string | null = prompt("fId:");
-                    if (screenPeer && f) {
-                      getScreenStream().then((stream: MediaStream) => {
-                        setScreenStream(stream);
-                        const conn: DataConnection = screenPeer.connect(f);
-                        conn.on("open", (): void => {
-                          console.log("sharing screen stream with", f);
-                          const call: MediaConnection = screenPeer.call(
-                            f,
-                            stream,
-                            {
-                              metadata: {
-                                streamType: "screen",
-                              },
-                            }
-                          );
-                          call.on("error", console.error);
-                          call.on("close", (): void =>
-                            console.log("call closed")
-                          );
-                        });
-                      });
-                    }
-                  } else {
-                    screenStream
-                      .getTracks()
-                      .forEach((track: MediaStreamTrack): void => track.stop());
-                    setScreenStream(undefined);
-                  }
-                }}
-                color="inherit"
-              >
-                {screenStream ? (
-                  <PresentToAllRounded color="inherit" />
-                ) : (
-                  <PausePresentationRounded color="inherit" />
-                )}
-              </IconButton>
-              <IconButton
-                onClick={() => {
-                  setIsPresentationView((pipv) => !pipv);
-                }}
-                color="inherit"
-              >
-                {isPresentationView ? (
-                  <ViewComfyOutlined color="inherit" />
-                ) : (
-                  <ViewComfyRounded color="inherit" />
-                )}
-              </IconButton>
-              <IconButton color="inherit">
-                <PanToolRounded color="inherit" />
-              </IconButton>
-              <IconButton
-                onClick={(): void => {
-                  const f: string | null = window.prompt("fId");
-                  console.log("f:", f);
-                  getUserStream().then((stream: MediaStream): void => {
-                    setUserStream(stream);
-                    if (userPeer && f) {
-                      const conn: DataConnection = userPeer.connect(f);
-                      conn.on("open", (): void => {
-                        console.log("sharing user stream with", f);
-                        const call: MediaConnection = userPeer.call(f, stream, {
-                          metadata: {
-                            streamType: "user",
-                          },
-                        });
-                        call.on("error", console.error);
-                        call.on("close", (): void =>
-                          console.log("call closed")
-                        );
-                      });
-                    }
-                  });
-                }}
-                sx={{
-                  bgcolor: "#550000",
-                }}
-                color="error"
-              >
-                <div className="flex justify-center items-center grow">
-                  <CallEndRounded />
-                </div>
-              </IconButton>
+            <div className="py-2 px-6 rounded-full bg-gray-900 text-gray-500 flex gap-2 sm:gap-6 justify-center items-center">
+              {isAdmin ? (
+                <>
+                  <IconButton
+                    onClick={(): void => {
+                      // pink;
+                      if (!userStream) {
+                        getUserStream()
+                          .then((stream: MediaStream) => {
+                            setUserStream(stream);
+                          })
+                          .catch(console.error);
+                      } else {
+                        userStream
+                          .getTracks()
+                          .forEach((track: MediaStreamTrack) => {
+                            track.stop();
+                          });
+                        setUserStream(undefined);
+                        console.log("pausing");
+                        socket.emit(PAUSE_USER);
+                      }
+                    }}
+                    color="inherit"
+                  >
+                    {paused ? (
+                      <VideocamOffRounded color="inherit" />
+                    ) : (
+                      <VideocamRounded color="inherit" />
+                    )}
+                  </IconButton>
+                  <IconButton
+                    onClick={(): void => {
+                      //
+                    }}
+                    color="inherit"
+                  >
+                    {screenStream ? (
+                      <PausePresentationRounded color="inherit" />
+                    ) : (
+                      <PresentToAllRounded color="inherit" />
+                    )}
+                  </IconButton>
+                  <IconButton
+                    onClick={() => {
+                      setIsPresentationView((pipv) => !pipv);
+                    }}
+                    color="inherit"
+                  >
+                    {isPresentationView ? (
+                      <ViewComfyOutlined color="inherit" />
+                    ) : (
+                      <ViewComfyRounded color="inherit" />
+                    )}
+                  </IconButton>
+                </>
+              ) : (
+                <IconButton color="inherit">
+                  {isHandRaised ? (
+                    <PanToolRounded color="inherit" />
+                  ) : (
+                    <DoNotTouchRounded color="inherit" />
+                  )}
+                </IconButton>
+              )}
               <IconButton
                 color="inherit"
                 onClick={(): void => {
@@ -268,12 +287,44 @@ function LiveLecture() {
                 )}
               </IconButton>
               <IconButton
-                onClick={() => {
+                onClick={(): void => {
                   setIsFullScreen((pifs: boolean): boolean => !pifs);
                 }}
                 color="inherit"
               >
                 <FullscreenRounded color="inherit" />
+              </IconButton>
+              <IconButton
+                onClick={(): void => {
+                  // const f: string | null = window.prompt("fId");
+                  // getUserStream().then((stream: MediaStream): void => {
+                  //   setUserStream(stream);
+                  //   if (userPeer && f) {
+                  //     const conn: DataConnection = userPeer.connect(f);
+                  //     conn.on("open", (): void => {
+                  //       const call: MediaConnection = userPeer.call(f, stream, {
+                  //         metadata: {
+                  //           streamType: "user",
+                  //         },
+                  //       });
+                  //       call.on("error", console.error);
+                  //       call.on("close", (): void => {
+                  //         console.log("call closed");
+                  //       });
+                  //     });
+                  //   }
+                  // });
+                  // const f: string | null = window.prompt("fId");
+                  // f && shareUserStream(f);
+                }}
+                sx={{
+                  bgcolor: "#550000",
+                }}
+                color="error"
+              >
+                <div className="flex justify-center items-center grow">
+                  <CallEndRounded />
+                </div>
               </IconButton>
             </div>
           </div>

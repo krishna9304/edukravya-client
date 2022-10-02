@@ -83,7 +83,7 @@ function Chatbar() {
     <div
       className={`top-0 z-20 fixed sm:w-96 sm:flex ${
         isOpen ? "right-0" : "-right-[calc(24rem-1.5rem)]"
-      } flex items-center  justify-center duration-300`}
+      } flex items-center justify-center duration-300`}
     >
       <Tooltip placement="left" title="CHAT">
         <div
@@ -151,7 +151,6 @@ function Chatbar() {
                   <SendRounded
                     className="cursor-pointer"
                     onClick={(e) => {
-                      console.log(message);
                       setMessages((pmsgs: MessageData[]) => [
                         ...pmsgs,
                         {
