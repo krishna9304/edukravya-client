@@ -137,6 +137,7 @@ export default function SignUp() {
         password: signUpData.password,
         phone: signUpData.phone,
         userId: signUpData.userId,
+        userType: signUpData.userType,
       })
       .then(
         ({

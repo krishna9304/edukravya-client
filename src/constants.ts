@@ -1,1 +1,4 @@
-export const serverURL = "http://localhost:8080";
+const isDev = false;
+export const serverURL = isDev
+  ? "http://localhost:80"
+  : "https://edukravya-server.herokuapp.com";
